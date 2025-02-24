@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import DietPlan from "../model/diet.model.js";
-import {User} from "../model/user.model.js";
+import { User} from "../model/user.model.js";
 
 export const GenrateDiet = async (req, res) => {
     const { age, gender, height, weight, fitnessGoal } = req.body;
@@ -80,3 +80,26 @@ export const GenrateDiet = async (req, res) => {
         res.status(500).json({ message: "Error generating diet plan", error: error.message });
     }
 };
+
+ export const GetDietbyId = async(req,res) => {
+    const userId = req.user._id;
+
+    try {
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({ message: "Invalid user ID" });
+        }
+
+        const dietPlan = await DietPlan.findOne({ userId });
+
+        if (!dietPlan) {
+            return res.status(404).json({ message: "Diet plan not found" });
+        }
+
+        res.status(200).json(dietPlan);
+    } catch (error) {
+        console.error("Error fetching diet plan:", error);
+        res.status(500).json({ message: "Error fetching diet plan", error: error.message });
+    }
+}

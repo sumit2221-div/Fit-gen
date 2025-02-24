@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import authRoute from "./src/routes/user.routes.js";
 import workoutRoute from "./src/routes/workout.route.js";
 import DietRoute from "./src/routes/diet.router.js";
+import NutritionRoute from "./src/routes/nutrition.router.js";
 
 const app = express();
 dotenv.config({ path: './.env' });
@@ -22,6 +23,7 @@ ConnectDB();
 app.use("/api/auth", authRoute);
 app.use("/api/workout", workoutRoute);
 app.use("/api/diet", DietRoute);
+app.use("/api/nutrition", NutritionRoute);
 
 // Start the server
 const PORT =  5000;
