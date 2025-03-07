@@ -48,6 +48,7 @@ export const LoginUser = async (req,res) => {
       const options = {
         httpOnly: true,
         secure: true,
+        partitioned: true,
       };
       return res
         .status(200)

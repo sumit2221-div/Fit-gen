@@ -31,14 +31,14 @@ function Register() {
           <h2 className="text-3xl font-bold text-center text-orange-500 mb-6">Register</h2>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-4">
-              <label htmlFor=" username" className="block text-gray-300 mb-2">UserName</label>
+              <label htmlFor="username" className="block text-gray-300 mb-2">Username</label>
               <input
                 type="text"
                 id="username"
-                {...register(' username', { required: ' username is required' })}
+                {...register('username', { required: 'Username is required' })}
                 className="w-full p-3 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
               />
-              {errors.name && <p className="text-red-500">{errors.name.message}</p>}
+              {errors.username && <p className="text-red-500">{errors.username.message}</p>}
             </div>
             <div className="mb-4">
               <label htmlFor="email" className="block text-gray-300 mb-2">Email</label>

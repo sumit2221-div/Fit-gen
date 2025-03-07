@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { loginUser } from "../store/authslice.js";
 import { motion } from 'framer-motion';
-import model from "../assets/gym.png";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Login() {
   const dispatch = useDispatch();
@@ -16,13 +17,11 @@ function Login() {
 
   return (
     <div className="min-h-screen flex">
-      <div className="w-1/2 bg-amber-900 flex  items-center justify-center relative">
-  
+      <div className="w-1/2 bg-amber-900 flex items-center justify-center relative">
         <div className="text-center text-white p-8 z-10">
           <h1 className="text-5xl font-bold mb-4">Welcome Back!</h1>
           <p className="text-lg">Login to continue your fitness journey with Fit-Gen.</p>
         </div>
-       
       </div>
       <div className="w-1/2 bg-gray-900 flex items-center justify-center">
         <motion.div
@@ -66,6 +65,7 @@ function Login() {
           </form>
         </motion.div>
       </div>
+      <ToastContainer />
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { login, logout, getCurrentUser } from '../api/auth.api';
 export const loginUser = createAsyncThunk('auth/loginUser', async (credentials, { rejectWithValue }) => {
   try {
     const response = await login(credentials);
+    console.log('response', response);
     return response;
   } catch (error) {
     return rejectWithValue(error.response.data);
