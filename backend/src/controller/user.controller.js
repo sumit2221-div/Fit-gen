@@ -49,6 +49,7 @@ export const LoginUser = async (req,res) => {
         httpOnly: true,
         secure: true,
         partitioned: true,
+        sameSite: "None",
       };
       return res
         .status(200)

@@ -3,7 +3,7 @@ import API from "./api.js";
 
 export const GenrateWorkout  = async (workoutdata) => {
     try {
-        const response = await API.post("/api/workout/genrate-workout", workoutdata);
+        const response = await API.post("/api/workout/generate-workout", workoutdata);
         return response.data;
         
     } catch (error) {
