@@ -7,23 +7,33 @@ export const login = async (userdata) => {
 
     }
     catch(error){
-        console.error("Login Error:", error);
+        console.error("Login Error:", error.message);
         throw error;
 
     }
 }
 
-export  const RegisterUser = async(userdata) => {
+export const RegisterUser = async (userdata) => {
     try {
         const response = await API.post("/api/auth/register", userdata);
+        console.log("✅ Registration Success:", response.data);
         return response.data;
-        
     } catch (error) {
-        console.error("Register Error:", error);
+        console.error("❌ Registration Failed:", error);
+
+        if (error.response) {
+            console.error("🚨 Server Response:", error.response.data);
+            console.error("🔍 Status Code:", error.response.status);
+            console.error("📝 Headers:", error.response.headers);
+        } else if (error.request) {
+            console.error("⏳ No Response from Server (Network Error)");
+        } else {
+            console.error("⚠️ Error in Request Setup:", error.message);
+        }
         throw error;
-        
     }
-}
+};
+
 
 export const logout = async() => {
     try {

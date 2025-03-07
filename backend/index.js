@@ -14,7 +14,10 @@ dotenv.config({ path: './.env' });
 app.use(express.json());
 
 
-app.use(cors({ origin: "*", credentials: true }));
+app.use(cors({ 
+    origin: "http://localhost:5173",  // Change to your frontend URL
+    credentials: true 
+}));
 
 // Define a route for GET requests to "/"
 app.get("/", (req, res) => {
