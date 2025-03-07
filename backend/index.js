@@ -14,7 +14,7 @@ dotenv.config({ path: './.env' });
 app.use(express.json());
 
 
-app.use(cors());
+app.use(cors({ origin: "*", credentials: true }));
 
 // Define a route for GET requests to "/"
 app.get("/", (req, res) => {
