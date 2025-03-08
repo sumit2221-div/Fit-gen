@@ -18,8 +18,9 @@ app.use(express.static("public"));
 app.use(cookieParser());
 
 // Configure CORS
+const allowedOrigins = ["https://fit-gen.netlify.app", "http://localhost:5173"];
 app.use(cors({ 
-    origin: "https://fit-gen.netlify.app",  // Change to your frontend URL
+    origin: allowedOrigins,  // Allow both production and development URLs
     credentials: true 
 }));
 
