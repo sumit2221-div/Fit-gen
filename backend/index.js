@@ -6,12 +6,18 @@ import authRoute from "./src/routes/user.routes.js";
 import workoutRoute from "./src/routes/workout.route.js";
 import DietRoute from "./src/routes/diet.router.js";
 import NutritionRoute from "./src/routes/nutrition.router.js";
+import cookieParser from 'cookie-parser';
+import { json } from 'express';
 
 const app = express();
 dotenv.config({ path: './.env' });
 
 // Middleware to parse JSON bodies
-app.use(express.json());
+
+app.use(express.json({limit : "16kb"}))
+app.use(express.urlencoded({extended : true, limit : "16kb"}))
+app.use(express.static("public"))
+app.use(cookieParser())
 
 
 app.use(cors({ 
