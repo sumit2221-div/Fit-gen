@@ -43,8 +43,7 @@ export const LoginUser = async (req, res) => {
     const options = {
       httpOnly: true,
       secure: true, // Use secure cookies in production
-      sameSite: 'None',
-      partitioned: true
+      
     };
 
     console.log('Setting cookies:', {
@@ -77,8 +76,7 @@ export const LogoutUser = async (req, res) => {
     const options = {
       httpOnly: true,
       secure: true, // Use secure cookies in production
-      sameSite: 'None',
-      partitioned: true
+      
     };
 
     res.clearCookie('accessToken', options);
