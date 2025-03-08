@@ -7,21 +7,19 @@ import workoutRoute from "./src/routes/workout.route.js";
 import DietRoute from "./src/routes/diet.router.js";
 import NutritionRoute from "./src/routes/nutrition.router.js";
 import cookieParser from 'cookie-parser';
-import { json } from 'express';
 
 const app = express();
 dotenv.config({ path: './.env' });
 
 // Middleware to parse JSON bodies
+app.use(express.json({ limit: "16kb" }));
+app.use(express.urlencoded({ extended: true, limit: "16kb" }));
+app.use(express.static("public"));
+app.use(cookieParser());
 
-app.use(express.json({limit : "16kb"}))
-app.use(express.urlencoded({extended : true, limit : "16kb"}))
-app.use(express.static("public"))
-app.use(cookieParser())
-
-
+// Configure CORS
 app.use(cors({ 
-    origin: "*",  // Change to your frontend URL
+    origin: "http://localhost:5173",  // Change to your frontend URL
     credentials: true 
 }));
 
@@ -39,7 +37,7 @@ app.use("/api/diet", DietRoute);
 app.use("/api/nutrition", NutritionRoute);
 
 // Start the server
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
