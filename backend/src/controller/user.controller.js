@@ -42,7 +42,7 @@ export const LoginUser = async (req, res) => {
     const loggedInUser = await User.findById(user._id).select('-password -refreshToken');
     const options = {
       httpOnly: true,
-      secure: false, // Use secure cookies in production
+      secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
       sameSite: 'None',
     };
 
@@ -75,7 +75,7 @@ export const LogoutUser = async (req, res) => {
 
     const options = {
       httpOnly: true,
-      secure: false, // Use secure cookies in production
+      secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
       sameSite: 'None'
     };
 
