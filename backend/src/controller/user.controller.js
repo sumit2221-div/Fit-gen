@@ -2,27 +2,40 @@ import { User } from "../model/user.model.js";
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
+// Register User
 export const RegisterUser = async (req, res) => {
   const { username, email, password } = req.body;
 
-  if (!username || !email || !password ) {
-    return res.status(400).json({ message: 'Please fill in all fields' });
+  // Validation
+  if (!username || !email || !password) {
+    return res.status(400).json({ message: 'All fields are required' });
   }
 
-  const existingUser = await User.findOne({ $or: [{ email }, { username }] });
-  if (existingUser) {
-    return res.status(400).json({ message: 'User with same username or email already exists' });
+  try {
+    // Check if user exists
+    const existingUser = await User.findOne({ $or: [{ email }, { username }] });
+    if (existingUser) {
+      return res.status(400).json({ message: 'User with same username or email already exists' });
+    }
+
+    // Hash password before saving
+    const hashedPassword = await bcrypt.hash(password, 12);
+
+    const newUser = new User({
+      username,
+      email,
+      password: hashedPassword, // Store hashed password
+    });
+
+    await newUser.save();
+    res.status(201).json({ message: 'User registered successfully' });
+  } catch (error) {
+    console.error("Error registering user:", error);
+    res.status(500).json({ message: 'Server error', error });
   }
+};
 
-  const newUser = new User({
-    username,
-    email,
-    password
-  });
-  await newUser.save();
-  res.status(201).json({ message: 'User registered successfully' });
-}
-
+// Login User
 export const LoginUser = async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -31,28 +44,30 @@ export const LoginUser = async (req, res) => {
       return res.status(400).json({ message: 'User not found' });
     }
 
+    // Compare password
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) {
       return res.status(400).json({ message: 'Incorrect password' });
     }
 
+    // Generate tokens
     const accessToken = user.generateAccessToken();
     const refreshToken = user.generateRefreshToken();
 
+    // Exclude password & refreshToken from response
     const loggedInUser = await User.findById(user._id).select('-password -refreshToken');
-    const options = {
+
+    const cookieOptions = {
       httpOnly: true,
-      secure: true, // Use secure cookies in production
-      
+      secure: true, // Only send over HTTPS
+      sameSite: "None", // Required for cross-origin cookies
+      path: "/",
     };
 
-    console.log('Setting cookies:', {
-      accessToken,
-      refreshToken,
-    });
+    // Set cookies
+    res.cookie('accessToken', accessToken, cookieOptions);
+    res.cookie('refreshToken', refreshToken, cookieOptions);
 
-    res.cookie('accessToken', accessToken, options);
-    res.cookie('refreshToken', refreshToken, options);
     return res.status(200).json({
       user: loggedInUser,
       accessToken,
@@ -60,11 +75,12 @@ export const LoginUser = async (req, res) => {
       message: 'User logged in successfully'
     });
   } catch (error) {
-    console.error('Error setting cookies:', error);
-    res.status(500).json({ message: 'Error logging in', error });
+    console.error('Error logging in:', error);
+    res.status(500).json({ message: 'Server error', error });
   }
-}
+};
 
+// Logout User
 export const LogoutUser = async (req, res) => {
   try {
     await User.findByIdAndUpdate(
@@ -73,65 +89,85 @@ export const LogoutUser = async (req, res) => {
       { new: true }
     );
 
-    const options = {
+    const cookieOptions = {
       httpOnly: true,
-      secure: true, // Use secure cookies in production
-      
+      secure: true,
+      sameSite: "None",
+      path: "/",
     };
 
-    res.clearCookie('accessToken', options);
-    res.clearCookie('refreshToken', options);
-    return res.status(200).json({ message: 'User logged out' });
+    res.clearCookie('accessToken', cookieOptions);
+    res.clearCookie('refreshToken', cookieOptions);
+    return res.status(200).json({ message: 'User logged out successfully' });
   } catch (error) {
     console.error('Error clearing cookies:', error);
-    res.status(500).json({ message: 'Error logging out', error });
+    res.status(500).json({ message: 'Server error', error });
   }
-}
+};
 
+// Get Current User (Protected)
 export const GetCurrentUser = async (req, res) => {
-  const userId = req.user._id;
+  const userId = req.user?._id;
+  if (!userId) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
   try {
-    const user = await User.findById(userId, 'username email');
+    const user = await User.findById(userId).select('username email');
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
     res.json({ user });
   } catch (error) {
     console.error('Error fetching user details:', error);
-    res.status(500).json({ message: 'Error fetching user details', error });
+    res.status(500).json({ message: 'Server error', error });
   }
-}
+};
 
+// Update User Details (Protected)
 export const updateUser = async (req, res) => {
-  const userId = req.user._id;
+  const userId = req.user?._id;
+  if (!userId) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
   const { username, email } = req.body;
   try {
     const user = await User.findByIdAndUpdate(
       userId,
       { username, email },
       { new: true }
-    );
+    ).select('username email');
+
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
     res.json({ user });
   } catch (error) {
     console.error('Error updating user details:', error);
-    res.status(500).json({ message: 'Error updating user details', error });
+    res.status(500).json({ message: 'Server error', error });
   }
-}
+};
 
+// Change Password (Protected)
 export const ChangePassword = async (req, res) => {
-  const userId = req.user._id;
+  const userId = req.user?._id;
+  if (!userId) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
   const { oldPassword, newPassword } = req.body;
   try {
     const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
     const isPasswordCorrect = await bcrypt.compare(oldPassword, user.password);
     if (!isPasswordCorrect) {
       return res.status(400).json({ message: 'Incorrect password' });
     }
-    const hashedPassword = await bcrypt.hash(newPassword, 12);
-    user.password = hashedPassword;
+
+    user.password = await bcrypt.hash(newPassword, 12);
     await user.save();
     res.json({ message: 'Password updated successfully' });
   } catch (error) {
