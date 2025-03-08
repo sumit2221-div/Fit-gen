@@ -19,7 +19,7 @@ app.use(cookieParser());
 
 // Configure CORS
 app.use(cors({ 
-    origin: "http://localhost:5173",  // Change to your frontend URL
+    origin: "https://fit-gen.netlify.app",  // Change to your frontend URL
     credentials: true 
 }));
 
