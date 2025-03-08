@@ -2,20 +2,17 @@ import API from "./api.js";
 
 export const login = async (userdata) => {
     try {
-        const response = await API.post("/api/auth/login", userdata);
+        const response = await API.post("/api/auth/login", userdata, { withCredentials: true });
         return response.data;
-
-    }
-    catch(error){
+    } catch (error) {
         console.error("Login Error:", error.message);
         throw error;
-
     }
-}
+};
 
 export const RegisterUser = async (userdata) => {
     try {
-        const response = await API.post("/api/auth/register", userdata);
+        const response = await API.post("/api/auth/register", userdata, { withCredentials: true });
         console.log("✅ Registration Success:", response.data);
         return response.data;
     } catch (error) {
@@ -34,49 +31,43 @@ export const RegisterUser = async (userdata) => {
     }
 };
 
-
-export const logout = async() => {
+export const logout = async () => {
     try {
-         const response = await API.post("/api/auth/logout");
+        const response = await API.post("/api/auth/logout", {}, { withCredentials: true });
         localStorage.removeItem("token");
         return response.data;
-        
     } catch (error) {
         console.error("Logout Error:", error);
         throw error;
-        
     }
-}
+};
 
-export const getCurrentUser = async() => {
+export const getCurrentUser = async () => {
     try {
-        const response = await API.get("/api/auth/current-user");
+        const response = await API.get("/api/auth/current-user", { withCredentials: true });
         return response.data;
     } catch (error) {
-        console.error("error while finding user:", error);
+        console.error("Error while finding user:", error);
         throw error;
     }
-}
+};
 
-export const updateUser = async(userdata) => {
+export const updateUser = async (userdata) => {
     try {
-        const response = await API.put("/api/auth/update-user", userdata);
+        const response = await API.put("/api/auth/update-user", userdata, { withCredentials: true });
         return response.data;
-    }
-    catch(error){
+    } catch (error) {
         console.error("Error while updating user:", error);
         throw error;
     }
-}
+};
 
-export const changePassword = async(userdata) => {
+export const changePassword = async (userdata) => {
     try {
-        const response = await API.post("/api/auth/change-password", userdata);
+        const response = await API.post("/api/auth/change-password", userdata, { withCredentials: true });
         return response.data;
     } catch (error) {
         console.error("Error while changing password:", error);
         throw error;
-        
     }
-}
-
+};
