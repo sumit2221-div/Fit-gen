@@ -61,7 +61,7 @@ export const LoginUser = async (req, res) => {
       httpOnly: true,  
       secure: true,  // Ensures cookies are only sent over HTTPS
       sameSite: "None", // Allows cross-site cookies
-      domain: ".fit-gen-rczl.onrender.com", // Use backend domain or remove if unnecessary
+      domain: "fit-gen-rczl.onrender.com", // Use backend domain or remove if unnecessary
       partitioned: true, // New flag to comply with future browser policies
     };
     
@@ -95,7 +95,7 @@ export const LogoutUser = async (req, res) => {
       httpOnly: true,  
       secure: true,  // Ensures cookies are only sent over HTTPS
       sameSite: "None", // Allows cross-site cookies
-      domain: ".fit-gen-rczl.onrender.com", // Use backend domain or remove if unnecessary
+      domain: "fit-gen-rczl.onrender.com", // Use backend domain or remove if unnecessary
       partitioned: true, // New flag to comply with future browser policies
     };
     
