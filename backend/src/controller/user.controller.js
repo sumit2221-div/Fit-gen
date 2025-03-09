@@ -59,7 +59,7 @@ export const LoginUser = async (req, res) => {
 
     const cookieOptions = {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+      secure: true, // Use secure cookies in production
       sameSite: 'None', // Required for cross-origin cookies
       path: "/",
     };
@@ -92,7 +92,7 @@ export const LogoutUser = async (req, res) => {
       httpOnly: true,
       secure: true, // Must be true for SameSite=None
       sameSite: 'None', // Needed for cross-origin requests
-  
+      path: "/",
     };
     
     res.cookie('accessToken', accessToken, cookieOptions);
