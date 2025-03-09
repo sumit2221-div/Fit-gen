@@ -92,7 +92,7 @@ export const LogoutUser = async (req, res) => {
       httpOnly: true,
       secure: true, // Must be true for SameSite=None
       sameSite: 'None', // Needed for cross-origin requests
-      path: "/",
+  
     };
     
     res.cookie('accessToken', accessToken, cookieOptions);
