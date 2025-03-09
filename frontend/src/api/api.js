@@ -1,18 +1,15 @@
 import axios from "axios";
 
-// Create an Axios instance
 const API = axios.create({
-  baseURL: "https://fit-gen-fbwd.onrender.com",  // Your backend API base URL
+  baseURL: "/api",  // Use relative API path (Netlify will redirect)
   headers: {
     "Content-Type": "application/json",
   },
   withCredentials: true,  
 });
 
-// Add request interceptor
 API.interceptors.request.use(
   (config) => {
-    
     const token = document.cookie
       .split("; ")
       .find(row => row.startsWith("accessToken="))
@@ -23,10 +20,7 @@ API.interceptors.request.use(
     }
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
-// Export API instance
 export default API;
