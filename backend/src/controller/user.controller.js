@@ -59,9 +59,9 @@ export const LoginUser = async (req, res) => {
 
     const cookieOptions = {
       httpOnly: true,
-      secure: true, // Use secure cookies in production
-      sameSite: 'none', 
-    
+      secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+      sameSite: 'None', // Required for cross-origin cookies
+      path: "/",
     };
 
     // Set cookies
@@ -91,8 +91,9 @@ export const LogoutUser = async (req, res) => {
 
     const cookieOptions = {
       httpOnly: true,
-      secure: true, // Use secure cookies in production
-      sameSite: 'none', 
+      secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+      sameSite: 'None',
+      path: "/",
     };
 
     res.clearCookie('accessToken', cookieOptions);
