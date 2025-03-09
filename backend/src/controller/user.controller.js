@@ -89,10 +89,12 @@ export const LogoutUser = async (req, res) => {
       { new: true }
     );
 
+    const isProduction = process.env.NODE_ENV === 'production';
+
     const cookieOptions = {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
-      sameSite: 'None',
+      secure: isProduction, 
+      sameSite: isProduction ? 'None' : 'Lax', // 'Lax' in dev to avoid rejection
       path: "/",
     };
 
