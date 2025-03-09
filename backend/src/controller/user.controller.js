@@ -69,6 +69,7 @@ export const LoginUser = async (req, res) => {
     // Set cookies
     res.cookie('accessToken', accessToken, cookieOptions);
     res.cookie('refreshToken', refreshToken, cookieOptions);
+    console.log("Cookies set:", req.cookies); 
 
     return res.status(200).json({
       user: loggedInUser,
