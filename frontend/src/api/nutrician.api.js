@@ -2,7 +2,7 @@ import API from "./api.js";
 
 export const AddMeal = async (mealdata) => {
     try {
-        const response = await API.post("/api/nutrition/add-meal", mealdata);
+        const response = await API.post("/nutrition/add-meal", mealdata);
         return response.data;
         
     } catch (error) {
@@ -15,7 +15,7 @@ export const AddMeal = async (mealdata) => {
 
 export const GetMeal = async() => {
     try {
-        const response = await API.get("api/nutrition/get-meal");
+        const response = await API.get("/nutrition/get-meal");
         return response.data;
         
     } catch (error) {

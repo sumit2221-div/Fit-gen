@@ -59,9 +59,9 @@ export const LoginUser = async (req, res) => {
 
     const cookieOptions = {
       httpOnly: true,
-      secure: true, // Use secure cookies in production
-      sameSite: 'None', // Required for cross-origin cookies
-      path: "/",
+      secure: true,
+      sameSite: 'none', 
+      
     };
 
     // Set cookies
@@ -88,16 +88,13 @@ export const LogoutUser = async (req, res) => {
       { $unset: { refreshToken: 1 } },
       { new: true }
     );
+
     const cookieOptions = {
       httpOnly: true,
-      secure: true, // Must be true for SameSite=None
-      sameSite: 'None', // Needed for cross-origin requests
-      path: "/",
+      secure: true,
+      sameSite: 'none', 
+     
     };
-    
-    res.cookie('accessToken', accessToken, cookieOptions);
-    res.cookie('refreshToken', refreshToken, cookieOptions);
-    
 
     res.clearCookie('accessToken', cookieOptions);
     res.clearCookie('refreshToken', cookieOptions);

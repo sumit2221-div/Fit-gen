@@ -2,7 +2,7 @@ import API from "./api.js";
 
 export const login = async (userdata) => {
     try {
-        const response = await API.post("/api/auth/login", userdata, { withCredentials: true });
+        const response = await API.post("/auth/login", userdata, { withCredentials: true });
         return response.data;
     } catch (error) {
         console.error("Login Error:", error.message);
@@ -12,7 +12,7 @@ export const login = async (userdata) => {
 
 export const RegisterUser = async (userdata) => {
     try {
-        const response = await API.post("/api/auth/register", userdata, { withCredentials: true });
+        const response = await API.post("/auth/register", userdata, { withCredentials: true });
         console.log("✅ Registration Success:", response.data);
         return response.data;
     } catch (error) {
@@ -33,7 +33,7 @@ export const RegisterUser = async (userdata) => {
 
 export const logout = async () => {
     try {
-        const response = await API.post("/api/auth/logout", {}, { withCredentials: true });
+        const response = await API.post("/auth/logout", {}, { withCredentials: true });
         localStorage.removeItem("token");
         return response.data;
     } catch (error) {

@@ -1,7 +1,9 @@
 import axios from "axios";
+axios.defaults.withCredentials = true;
+
 
 const API = axios.create({
-  baseURL: "/api",  // Use relative API path (Netlify will redirect)
+  baseURL: "http://localhost:5000/api",  // Ensure the correct base URL for your backend
   headers: {
     "Content-Type": "application/json",
   },
