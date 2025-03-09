@@ -88,15 +88,16 @@ export const LogoutUser = async (req, res) => {
       { $unset: { refreshToken: 1 } },
       { new: true }
     );
-
-    const isProduction = process.env.NODE_ENV === 'production';
-
     const cookieOptions = {
       httpOnly: true,
-      secure: isProduction, 
-      sameSite: isProduction ? 'None' : 'Lax', // 'Lax' in dev to avoid rejection
+      secure: true, // Must be true for SameSite=None
+      sameSite: 'None', // Needed for cross-origin requests
       path: "/",
     };
+    
+    res.cookie('accessToken', accessToken, cookieOptions);
+    res.cookie('refreshToken', refreshToken, cookieOptions);
+    
 
     res.clearCookie('accessToken', cookieOptions);
     res.clearCookie('refreshToken', cookieOptions);
