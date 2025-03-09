@@ -58,11 +58,13 @@ export const LoginUser = async (req, res) => {
     const loggedInUser = await User.findById(user._id).select('-password -refreshToken');
 
     const cookieOptions = {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'none', 
-      
+      httpOnly: true,  
+      secure: true,  // Ensures cookies are only sent over HTTPS
+      sameSite: "None", // Allows cross-site cookies
+      domain: ".fit-gen-rczl.onrender.com", // Use backend domain or remove if unnecessary
+      partitioned: true, // New flag to comply with future browser policies
     };
+    
 
     // Set cookies
     res.cookie('accessToken', accessToken, cookieOptions);
@@ -90,11 +92,13 @@ export const LogoutUser = async (req, res) => {
     );
 
     const cookieOptions = {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'none', 
-     
+      httpOnly: true,  
+      secure: true,  // Ensures cookies are only sent over HTTPS
+      sameSite: "None", // Allows cross-site cookies
+      domain: ".fit-gen-rczl.onrender.com", // Use backend domain or remove if unnecessary
+      partitioned: true, // New flag to comply with future browser policies
     };
+    
 
     res.clearCookie('accessToken', cookieOptions);
     res.clearCookie('refreshToken', cookieOptions);
