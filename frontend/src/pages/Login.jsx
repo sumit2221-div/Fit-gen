@@ -5,6 +5,7 @@ import { loginUser } from "../store/authslice.js";
 import { motion } from 'framer-motion';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 
 function Login() {
   const dispatch = useDispatch();
@@ -17,13 +18,23 @@ function Login() {
 
   return (
     <div className="min-h-screen flex">
-      <div className="w-1/2 bg-amber-900 flex items-center justify-center relative">
+      <motion.div
+        initial={{ opacity: 0, x: -100 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.5 }}
+        className="w-1/2 bg-amber-900 flex items-center justify-center relative"
+      >
         <div className="text-center text-white p-8 z-10">
           <h1 className="text-5xl font-bold mb-4">Welcome Back!</h1>
           <p className="text-lg">Login to continue your fitness journey with Fit-Gen.</p>
         </div>
-      </div>
-      <div className="w-1/2 bg-gray-900 flex items-center justify-center">
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, x: 100 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.5 }}
+        className="w-1/2 bg-gray-900 flex items-center justify-center"
+      >
         <motion.div
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -63,8 +74,11 @@ function Login() {
               {loading ? 'Logging in...' : 'Login'}
             </motion.button>
           </form>
+          <div className="text-center mt-4">
+            <p className="text-gray-300">New user? <Link to="/register" className="text-orange-500 hover:underline">Register here</Link></p>
+          </div>
         </motion.div>
-      </div>
+      </motion.div>
       <ToastContainer />
     </div>
   );

@@ -43,7 +43,7 @@ export const GenrateWorkout = async (req, res) => {
         const aiOutput = await response.response.text();  // Await the text if it's a Promise
         console.log("AI response:", aiOutput); // Log the raw response to check for errors in format
         
-        // Remove the markdown code block syntax (```)
+        // Remove the markdown code block syntax (```json|```)
         const cleanedOutput = aiOutput.replace(/```json|```/g, '').trim();
         
         // Parse the cleaned AI output into JSON format
@@ -58,6 +58,18 @@ export const GenrateWorkout = async (req, res) => {
         if (!workoutData.planDetails || !Array.isArray(workoutData.planDetails)) {
             throw new Error("Invalid workout plan structure received.");
         }
+
+        // Validate and set default values for exercises
+        workoutData.planDetails.forEach(day => {
+            day.exercises.forEach(exercise => {
+                if (!exercise.sets) {
+                    exercise.sets = 3; // Default sets value
+                }
+                if (!exercise.reps) {
+                    exercise.reps = "8-12"; // Default reps value
+                }
+            });
+        });
 
         console.log("Creating new workout plan...");
         const workoutPlan = new WorkoutPlan({
@@ -87,6 +99,7 @@ export const GenrateWorkout = async (req, res) => {
         res.status(500).json({ message: "Error generating workout plan", error: error.message });
     }
 };
+
 export const getWorkoutPlanByUserId = async (req, res) => {
     const userId = req.user._id;
     try {

@@ -7,6 +7,7 @@ import Login from "./pages/Login.jsx";
 import Register from "./pages/register.jsx";
 import GenrateWorkoutPage from "./pages/GenrateWorkout.jsx";
 import "./App.css";
+import GetWorkout from "./pages/GetWorkout.jsx";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/generate-workout" element={<GenrateWorkoutPage />} />
+            <Route path="/get-workout" element={<GetWorkout />} />
           </Routes>
         </main>
         <Footer />

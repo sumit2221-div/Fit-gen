@@ -3,6 +3,8 @@ import { useForm } from 'react-hook-form';
 import { RegisterUser } from '../api/auth.api.js';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import { motion } from 'framer-motion'; // Import motion from framer-motion
 
 function Register() {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -26,7 +28,12 @@ function Register() {
 
   return (
     <div className="min-h-screen flex">
-      <div className="w-1/2 bg-gray-900 flex items-center justify-center">
+      <motion.div
+        initial={{ opacity: 0, x: -100 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.5 }}
+        className="w-1/2 bg-gray-900 flex items-center justify-center"
+      >
         <div className="bg-gray-800 p-8 rounded-lg shadow-lg max-w-md w-full">
           <h2 className="text-3xl font-bold text-center text-orange-500 mb-6">Register</h2>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -68,14 +75,22 @@ function Register() {
               {loading ? 'Registering...' : 'Register'}
             </button>
           </form>
+          <div className="text-center mt-4">
+            <p className="text-gray-300">Already have an account? <Link to="/login" className="text-orange-500 hover:underline">Login here</Link></p>
+          </div>
         </div>
-      </div>
-      <div className="w-1/2 bg-amber-900 flex items-center justify-center relative">
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0, x: 100 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.5 }}
+        className="w-1/2 bg-amber-900 flex items-center justify-center relative"
+      >
         <div className="text-center text-white p-8 z-10">
           <h1 className="text-5xl font-bold mb-4">Join Us!</h1>
           <p className="text-lg">Register to start your fitness journey with Fit-Gen.</p>
         </div>
-      </div>
+      </motion.div>
       <ToastContainer />
     </div>
   );
