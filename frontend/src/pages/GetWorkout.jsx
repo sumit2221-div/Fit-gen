@@ -1,24 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { GetWorkout } from '../api/workout.api.js';
+import { FaDumbbell, FaCalendarAlt } from 'react-icons/fa';
 
-function GetWorkout() {
+function GetWorkoutpage() {
   const [workout, setWorkout] = useState(null);
 
+  useEffect(() => {
+    // Fetch the workout plan data from the backend
+    const fetchWorkout = async () => {
+      try {
+        const response = await GetWorkout();
+        console.log('Workout plan:', response);
+        setWorkout(response);
+      } catch (error) {
+        console.error('Error fetching workout plan:', error);
+      }
+    };
+
+    fetchWorkout();
+  }, []);
+
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white p-4 mt-10">
       {workout ? (
         <motion.div
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="bg-gray-800 p-8 rounded-lg shadow-lg max-w-md w-full"
+          className="bg-gray-800 p-8 rounded-lg shadow-lg max-w-2xl w-full"
         >
-          <h2 className="text-3xl font-bold text-center text-orange-500 mb-6">{workout.name}</h2>
-          <ul className="mb-6">
-            {workout.exercises.map((exercise, index) => (
-              <li key={index} className="mb-2">
-                {exercise.name} - {exercise.reps} reps
+          <h2 className="text-3xl font-bold text-center text-orange-500 mb-6 flex items-center justify-center">
+            <FaDumbbell className="mr-2" /> {workout.planName}
+          </h2>
+          <ul className="mb-6 space-y-4">
+            {workout.planDetails.map((day, index) => (
+              <li key={index} className="bg-gray-700 p-4 rounded-lg shadow-md">
+                <h3 className="text-xl font-semibold text-orange-400 mb-2 flex items-center">
+                  <FaCalendarAlt className="mr-2" /> Day {day.day}: {day.title}
+                </h3>
+                <ul className="ml-4 space-y-2">
+                  {day.exercises.map((exercise, idx) => (
+                    <li key={idx} className="flex justify-between">
+                      <span>{exercise.name}</span>
+                      <span>{exercise.sets} sets of {exercise.reps} reps</span>
+                    </li>
+                  ))}
+                </ul>
               </li>
             ))}
           </ul>
@@ -55,4 +84,4 @@ function GetWorkout() {
   );
 }
 
-export default GetWorkout;
+export default GetWorkoutpage;

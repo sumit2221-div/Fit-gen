@@ -1,17 +1,23 @@
 import React, { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { logoutUser } from "../store/authslice";
 import logo from "../assets/Fit-gen.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
+  const handleLogout = () => {
+    dispatch(logoutUser());
+  };
+
   return (
-    <nav
-      className="fixed mx-auto w-[80%] md:w-[60%] rounded-full transition-all duration-300 ring-amber-700 text-white z-50"
-    >
+    <nav className="fixed mx-auto w-[80%] md:w-[60%] rounded-full transition-all duration-300 ring-amber-700 text-white z-50">
       <div className="container mx-auto flex items-center justify-between py-4 px-6">
         {/* Logo */}
         <Link to="/" className="flex items-center">
@@ -23,8 +29,12 @@ const Navbar = () => {
         <div className="hidden md:flex space-x-8">
           <Link to="/" className="hover:text-orange-500 transition duration-300">Home</Link>
           <Link to="/get-workout" className="hover:text-orange-500 transition duration-300">Workout</Link>
-           <Link to="/services" className="hover:text-orange-500 transition duration-300">Nutrition</Link> 
-          <Link to="/login" className="hover:text-orange-500 transition duration-300 ">login</Link>
+          <Link to="/services" className="hover:text-orange-500 transition duration-300">Nutrition</Link>
+          {user ? (
+            <button onClick={handleLogout} className="hover:text-orange-500 transition duration-300">Logout</button>
+          ) : (
+            <Link to="/login" className="hover:text-orange-500 transition duration-300">Login</Link>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
@@ -41,10 +51,14 @@ const Navbar = () => {
           isOpen ? "max-h-60 py-4 px-6" : "max-h-0"
         }`}
       >
-        <Link to="/" className="block py-2 hover:text-orange-500 transition duration-300">Workout</Link>
-        <Link to="/about" className="block py-2 hover:text-orange-500 transition duration-300">Diet</Link>
+        <Link to="/" className="block py-2 hover:text-orange-500 transition duration-300">Home</Link>
+        <Link to="/get-workout" className="block py-2 hover:text-orange-500 transition duration-300">Workout</Link>
         <Link to="/services" className="block py-2 hover:text-orange-500 transition duration-300">Nutrition</Link>
-        <Link to="/contact" className="block py-2 hover:text-orange-500 transition duration-300">Contact</Link>
+        {user ? (
+          <button onClick={handleLogout} className="block py-2 hover:text-orange-500 transition duration-300">Logout</button>
+        ) : (
+          <Link to="/login" className="block py-2 hover:text-orange-500 transition duration-300">Login</Link>
+        )}
       </div>
     </nav>
   );
