@@ -4,7 +4,7 @@ import SplitText from "../tools/splittext.jsx";
 import AnimatedContent from "../tools/AminatedContent.jsx";
 import workout from "../assets/workout.png";
 import diet from "../assets/diet.png";
-
+import nutrition from "../assets/diet2.png";
 
 function Home() {
   return (
@@ -13,7 +13,7 @@ function Home() {
         className="w-screen min-h-screen bg-cover bg-center bg-no-repeat flex flex-col items-center justify-center text-white"
         style={{ backgroundImage: `url(${banner})` }}
       >
-        <div className=" bg-opacity-50 p-6 rounded-lg text-center shadow-lg max-w-3xl mx-4">
+        <div className="bg-gray-900 bg-opacity-50 p-6 rounded-lg text-center shadow-lg max-w-3xl mx-4">
           <SplitText
             text="Welcome to Fit-Gen"
             className="text-5xl font-extrabold text-center text-amber-500"
@@ -37,10 +37,10 @@ function Home() {
       </div>
       <div className="min-h-screen w-full bg-gray-900 flex items-center justify-center">
         <div className="container mx-auto text-center text-white">
-          <h2 className="text-3xl font-bold text-orange-500">Features</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-5 items-center mx-auto ">
+          <h2 className="text-3xl font-bold text-orange-500 mb-8">Features</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-5 items-center mx-auto">
             <AnimatedContent direction="horizontal" distance={100} delay={150}>
-              <div className="p-3 bg-gray-800 rounded-lg shadow-lg flex flex-col items-center w-full max-w-xs">
+              <div className="p-6 bg-gray-800 rounded-lg shadow-lg flex flex-col items-center w-full max-w-xs">
                 <img src={workout} alt="Workout Tracker" className="w-full h-auto rounded-lg mb-4" />
                 <h3 className="text-2xl font-semibold text-orange-500">Workout Tracker</h3>
                 <p className="mt-4 text-lg text-gray-300 text-center">
@@ -49,7 +49,7 @@ function Home() {
               </div>
             </AnimatedContent>
             <AnimatedContent direction="horizontal" distance={100} delay={300}>
-              <div className="p-3 bg-gray-800 rounded-lg shadow-lg flex flex-col items-center w-full max-w-xs">
+              <div className="p-6 bg-gray-800 rounded-lg shadow-lg flex flex-col items-center w-full max-w-xs">
                 <img src={diet} alt="Nutrition Tracker" className="w-full h-auto rounded-lg mb-4" />
                 <h3 className="text-2xl font-semibold text-orange-500">Nutrition Tracker</h3>
                 <p className="mt-4 text-lg text-gray-300 text-center">
@@ -58,11 +58,11 @@ function Home() {
               </div>
             </AnimatedContent>
             <AnimatedContent direction="horizontal" distance={100} delay={450}>
-              <div className="p-3 bg-gray-800 rounded-lg shadow-lg flex flex-col items-center w-full max-w-xs">
-                <img src="" alt="Motivation" className="w-full h-auto rounded-lg mb-4" />
-                <h3 className="text-2xl font-semibold text-orange-500">Motivation</h3>
+              <div className="p-6 bg-gray-800 rounded-lg shadow-lg flex flex-col items-center w-full max-w-xs">
+                <img src={nutrition} alt="Motivation" className="w-full h-auto rounded-lg mb-4" />
+                <h3 className="text-2xl font-semibold text-orange-500">Nutrition Tracker</h3>
                 <p className="mt-4 text-lg text-gray-300 text-center">
-                  Stay motivated with our community and achieve your fitness goals.
+                  Track your nutrition.
                 </p>
               </div>
             </AnimatedContent>
