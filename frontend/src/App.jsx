@@ -6,8 +6,9 @@ import Footer from "./components/footer.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/register.jsx";
 import GenrateWorkoutPage from "./pages/GenrateWorkout.jsx";
-import "./App.css";
 import GetWorkout from "./pages/GetWorkout.jsx";
+import CheckAuth from "./pages/checkauth.jsx" ;// Import CheckAuth component
+import "./App.css";
 
 function App() {
   return (
@@ -16,11 +17,35 @@ function App() {
         <Navbar />
         <main>
           <Routes>
-            <Route path="/" element={<Home />} />
+            {/* Public Routes */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/generate-workout" element={<GenrateWorkoutPage />} />
-            <Route path="/get-workout" element={<GetWorkout />} />
+
+            {/* Protected Routes */}
+            <Route
+              path="/"
+              element={
+                <CheckAuth>
+                  <Home />
+                </CheckAuth>
+              }
+            />
+            <Route
+              path="/generate-workout"
+              element={
+                <CheckAuth>
+                  <GenrateWorkoutPage />
+                </CheckAuth>
+              }
+            />
+            <Route
+              path="/get-workout"
+              element={
+                <CheckAuth>
+                  <GetWorkout />
+                </CheckAuth>
+              }
+            />
           </Routes>
         </main>
         <Footer />

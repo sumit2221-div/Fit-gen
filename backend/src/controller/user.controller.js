@@ -18,13 +18,12 @@ export const RegisterUser = async (req, res) => {
       return res.status(400).json({ message: 'User with same username or email already exists' });
     }
 
-    // Hash password before saving
-    const hashedPassword = await bcrypt.hash(password, 12);
+   
 
     const newUser = new User({
       username,
       email,
-      password: hashedPassword, // Store hashed password
+      password, // Store hashed password
     });
 
     await newUser.save();
