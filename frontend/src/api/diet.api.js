@@ -2,7 +2,7 @@ import API from "./api.js";
 
 export const genrateDiet = async(dietdata) => {
     try {
-        const response  = await  API.post("/diet/genrate-diet", dietdata);
+        const response  = await  API.post("/diet/generate-diet", dietdata);
         return response.data;
 
     }
@@ -15,7 +15,7 @@ export const genrateDiet = async(dietdata) => {
 
 export const getDiet  = async()=> {
     try {
-        const response = await API.get("/api/diet/get-diet");
+        const response = await API.get("/diet/get-diet");
         return response.data;
     }
     catch(error){

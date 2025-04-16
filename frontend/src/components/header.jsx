@@ -29,7 +29,7 @@ const Navbar = () => {
         <div className="hidden md:flex space-x-8">
           <Link to="/" className="hover:text-orange-500 transition duration-300">Home</Link>
           <Link to="/get-workout" className="hover:text-orange-500 transition duration-300">Workout</Link>
-          <Link to="/services" className="hover:text-orange-500 transition duration-300">Nutrition</Link>
+          <Link to="/generate_diet" className="hover:text-orange-500 transition duration-300">Diet</Link>
           {user ? (
             <button onClick={handleLogout} className="hover:text-orange-500 transition duration-300">Logout</button>
           ) : (

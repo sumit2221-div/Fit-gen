@@ -9,6 +9,8 @@ import GenrateWorkoutPage from "./pages/GenrateWorkout.jsx";
 import GetWorkout from "./pages/GetWorkout.jsx";
 import CheckAuth from "./pages/checkauth.jsx" ;// Import CheckAuth component
 import "./App.css";
+import GenrateDietPage from "./pages/genratediet.jsx";
+import GetDiet from "./pages/getdiet.jsx";
 
 function App() {
   return (
@@ -46,6 +48,23 @@ function App() {
                 </CheckAuth>
               }
             />
+            <Route
+              path="/generate_diet"
+              element={
+                <CheckAuth>
+                  <GenrateDietPage />
+                </CheckAuth>
+              } />
+
+            <Route
+              path="/get_diet"
+              element={
+                <CheckAuth>
+                  <GetDiet />
+                </CheckAuth>
+              } />
+
+    
           </Routes>
         </main>
         <Footer />

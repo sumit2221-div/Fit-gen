@@ -60,9 +60,9 @@ function Home() {
             <AnimatedContent direction="horizontal" distance={100} delay={450}>
               <div className="p-6 bg-gray-800 rounded-lg shadow-lg flex flex-col items-center w-full max-w-xs mx-auto">
                 <img src={nutrition} alt="Motivation" className="w-full h-auto rounded-lg mb-4" />
-                <h3 className="text-2xl font-semibold text-orange-500">Nutrition Tracker</h3>
+                <h3 className="text-2xl font-semibold text-orange-500">Diet Tracker</h3>
                 <p className="mt-4 text-lg text-gray-300 text-center">
-                  Track your nutrition.
+                  Track your diet.
                 </p>
               </div>
             </AnimatedContent>

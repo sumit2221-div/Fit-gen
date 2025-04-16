@@ -3,7 +3,7 @@ axios.defaults.withCredentials = true;
 
 
 const API = axios.create({
-  baseURL: "https://fit-gen-rczl.onrender.com/api",  // Ensure the correct base URL for your backend
+  baseURL: "http://localhost:5000/api",  // Ensure the correct base URL for your backend
   headers: {
     "Content-Type": "application/json",
   },
