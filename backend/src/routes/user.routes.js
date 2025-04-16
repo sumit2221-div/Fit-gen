@@ -9,6 +9,6 @@ router.post("/login", LoginUser);
 router.post("/logout", VerifyJWT, LogoutUser);
 router.post("/change-password", VerifyJWT, ChangePassword);
 router.get("/current-user", VerifyJWT, GetCurrentUser);
-router.put("/update-user", VerifyJWT, updateUser);
+router.put("/update-user", VerifyJWT,updateUser);
 
 export default router;
