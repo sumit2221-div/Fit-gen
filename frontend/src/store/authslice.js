@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { login, logout, getCurrentUser } from '../api/auth.api';
 
-
 // Async thunk for logging in a user
 export const loginUser = createAsyncThunk('auth/loginUser', async (credentials, { rejectWithValue }) => {
   try {
@@ -39,12 +38,14 @@ const authSlice = createSlice({
     user: null,
     loading: false,
     error: null,
+    isAuthenticated: false, // Add isAuthenticated status
   },
   reducers: {
     clearAuthState: (state) => {
       state.user = null;
       state.loading = false;
       state.error = null;
+      state.isAuthenticated = false; // Reset isAuthenticated
     },
   },
   extraReducers: (builder) => {
@@ -56,10 +57,12 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload.user;
+        state.isAuthenticated = true; // Set isAuthenticated to true
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        state.isAuthenticated = false; // Set isAuthenticated to false
       })
       .addCase(logoutUser.pending, (state) => {
         state.loading = true;
@@ -68,6 +71,7 @@ const authSlice = createSlice({
       .addCase(logoutUser.fulfilled, (state) => {
         state.loading = false;
         state.user = null;
+        state.isAuthenticated = false; // Set isAuthenticated to false
       })
       .addCase(logoutUser.rejected, (state, action) => {
         state.loading = false;
@@ -80,10 +84,12 @@ const authSlice = createSlice({
       .addCase(fetchCurrentUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload.user;
+        state.isAuthenticated = true; // Set isAuthenticated to true
       })
       .addCase(fetchCurrentUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        state.isAuthenticated = false; // Set isAuthenticated to false
       });
   },
 });

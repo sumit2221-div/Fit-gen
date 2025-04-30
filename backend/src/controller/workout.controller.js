@@ -87,15 +87,25 @@ export const GenrateWorkout = async (req, res) => {
         res.status(500).json({ message: "Error generating workout plan", error: error.message });
     }
 };
-export const getWorkoutPlanByUserId = async (req, res) => {
-    const userId = req.user._id;
+
+
+
+export const getWorkoutPlanByWorkoutId = async (req, res) => {
+    const { workoutId } = req.params; // Extract workoutId from request parameters
+
     try {
-        const workoutPlan = await WorkoutPlan.findOne({ userId }).populate('userId', 'username email');
+        // Find the workout plan by its ID
+        const workoutPlan = await WorkoutPlan.findById(workoutId).populate('userId', 'username email');
+
+        // If no workout plan is found, return a 404 error
         if (!workoutPlan) {
             return res.status(404).json({ message: 'Workout plan not found' });
         }
+
+        // Return the workout plan
         res.status(200).json(workoutPlan);
     } catch (error) {
+        console.error("Error fetching workout plan by workoutId:", error);
         res.status(500).json({ message: 'Error fetching workout plan', error: error.message });
     }
 };

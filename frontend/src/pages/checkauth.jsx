@@ -3,15 +3,15 @@ import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 
 const CheckAuth = ({ children }) => {
-  // Access the auth state from Redux (adjust based on your actual state structure)
-  const user = useSelector((state) => state.auth.user);
+  // Access the isAuthenticated state from Redux
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
-  // If no user is found, redirect to login
-  if (!user) {
+  // If the user is not authenticated, redirect to login
+  if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
 
-  // If user exists, render the protected component
+  // If the user is authenticated, render the protected component
   return children;
 };
 

@@ -4,15 +4,19 @@ import { GenrateWorkout } from '../api/workout.api.js';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import SplitText from '../tools/splittext.jsx';
+import { useNavigate } from 'react-router-dom';
 
 function GenrateWorkoutPage() {
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     try {
       const response = await GenrateWorkout(data);
       console.log('Workout generated successfully:', response);
       toast.success('Workout generated successfully!');
+      navigate("/get_workout")
+
       // Handle success (e.g., show a success message, redirect, etc.)
     } catch (error) {
       console.error('Error generating workout:', error);

@@ -13,7 +13,7 @@ function GetDiet() {
     const fetchDietPlan = async () => {
       try {
         const response = await getDiet();
-        setDietPlan(response);
+        setDietPlan(response.dietplan);
         setLoading(false);
       } catch (err) {
         setError("Failed to fetch diet plan. Please try again.");
@@ -56,7 +56,7 @@ function GetDiet() {
           Stay on track with your personalized diet plan.
         </p>
         <ul className="space-y-6">
-          {dietPlan.planDetails.map((meal, index) => (
+          {dietPlan.map((meal, index) => (
             <li
               key={index}
               className="bg-gray-700 p-6 rounded-lg shadow-md flex flex-col"
