@@ -19,7 +19,7 @@ app.use(cookieParser());
 
 // Configure CORS
 const allowedOrigins = [
-    "http://localhost:5173", // Allow localhost for development
+    "*", // Allow localhost for development
     "https://fit-gen.netlify.app" // Production frontend
   ];
   

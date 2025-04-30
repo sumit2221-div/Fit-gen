@@ -1,30 +1,52 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom'; // Import useParams to get workoutId from the URL
 import { motion } from 'framer-motion';
-import { GetWorkout } from '../api/workout.api.js';
+import { GetWorkoutById } from '../api/workout.api.js';
 import { FaDumbbell, FaCalendarAlt } from 'react-icons/fa';
 
 function GetWorkoutpage() {
   const [workout, setWorkout] = useState(null);
+  const [error, setError] = useState(null);
+  const { workoutId } = useParams(); // Get workoutId from the URL
 
   useEffect(() => {
     // Fetch the workout plan data from the backend
     const fetchWorkout = async () => {
       try {
-        const response = await GetWorkout();
+        const response = await GetWorkoutById(workoutId); // Fetch workout by workoutId
         console.log('Workout plan:', response);
         setWorkout(response);
       } catch (error) {
         console.error('Error fetching workout plan:', error);
+        setError('Failed to fetch workout plan. Please try again.');
       }
     };
 
     fetchWorkout();
-  }, []);
+  }, [workoutId]);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white p-4 mt-10">
-      {workout ? (
+      {error ? (
+        <motion.div
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="bg-gray-800 p-8 rounded-lg shadow-lg max-w-md w-full text-center"
+        >
+          <h2 className="text-3xl font-bold text-center text-red-500 mb-6">Error</h2>
+          <p className="mb-6">{error}</p>
+          <Link to="/generate-workout">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-full py-3 bg-orange-500 text-black font-semibold rounded-lg hover:bg-orange-600 transition duration-300"
+            >
+              Generate Workout
+            </motion.button>
+          </Link>
+        </motion.div>
+      ) : workout ? (
         <motion.div
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -67,17 +89,8 @@ function GetWorkoutpage() {
           transition={{ duration: 0.5 }}
           className="bg-gray-800 p-8 rounded-lg shadow-lg max-w-md w-full text-center"
         >
-          <h2 className="text-3xl font-bold text-center text-orange-500 mb-6">No Workout Generated</h2>
-          <p className="mb-6">Click the button below to generate a workout.</p>
-          <Link to="/generate-workout">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-full py-3 bg-orange-500 text-black font-semibold rounded-lg hover:bg-orange-600 transition duration-300"
-            >
-              Generate Workout
-            </motion.button>
-          </Link>
+          <h2 className="text-3xl font-bold text-center text-orange-500 mb-6">Loading...</h2>
+          <p className="mb-6">Fetching your workout plan. Please wait.</p>
         </motion.div>
       )}
     </div>

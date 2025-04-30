@@ -7,7 +7,7 @@ import Login from "./pages/Login.jsx";
 import Register from "./pages/register.jsx";
 import GenrateWorkoutPage from "./pages/GenrateWorkout.jsx";
 import GetWorkout from "./pages/GetWorkout.jsx";
-import CheckAuth from "./pages/checkauth.jsx" ;// Import CheckAuth component
+import CheckAuth from "./pages/checkauth.jsx"; // Import CheckAuth component
 import "./App.css";
 import GenrateDietPage from "./pages/genratediet.jsx";
 import GetDiet from "./pages/getdiet.jsx";
@@ -41,7 +41,7 @@ function App() {
               }
             />
             <Route
-              path="/get-workout"
+              path="/get-workout/:workoutId"
               element={
                 <CheckAuth>
                   <GetWorkout />
@@ -54,17 +54,16 @@ function App() {
                 <CheckAuth>
                   <GenrateDietPage />
                 </CheckAuth>
-              } />
-
+              }
+            />
             <Route
               path="/get_diet"
               element={
                 <CheckAuth>
                   <GetDiet />
                 </CheckAuth>
-              } />
-
-    
+              }
+            />
           </Routes>
         </main>
         <Footer />

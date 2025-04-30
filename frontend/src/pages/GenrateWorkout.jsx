@@ -15,13 +15,12 @@ function GenrateWorkoutPage() {
       const response = await GenrateWorkout(data);
       console.log('Workout generated successfully:', response);
       toast.success('Workout generated successfully!');
-      navigate("/get_workout")
 
-      // Handle success (e.g., show a success message, redirect, etc.)
+      // Redirect to the GetWorkout page with the workoutId
+      navigate(`/get-workout/${response._id}`);
     } catch (error) {
       console.error('Error generating workout:', error);
       toast.error('Error generating workout.');
-      // Handle error (e.g., show an error message)
     }
   };
 
@@ -29,7 +28,7 @@ function GenrateWorkoutPage() {
     <div className="min-h-screen flex">
       <div className="w-1/2 bg-gradient-to-r from-gray-800 to-gray-500 flex items-center justify-center">
         <div className="text-center text-white p-8">
-        <SplitText
+          <SplitText
             text="Welcome to Fit-Gen"
             className="text-5xl font-extrabold text-center text-amber-500"
             delay={150}
