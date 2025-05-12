@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/header.jsx";
 import Home from "./pages/home.jsx";
@@ -7,68 +6,76 @@ import Login from "./pages/Login.jsx";
 import Register from "./pages/register.jsx";
 import GenrateWorkoutPage from "./pages/GenrateWorkout.jsx";
 import GetWorkout from "./pages/GetWorkout.jsx";
-import CheckAuth from "./pages/checkauth.jsx"; // Import CheckAuth component
-import "./App.css";
+
 import GenrateDietPage from "./pages/genratediet.jsx";
 import GetDiet from "./pages/getdiet.jsx";
+import useAuthCheck from "./pages/checkauth.jsx" // ✅ import the hook
 
 function App() {
   return (
     <Router>
-      <div className="flex flex-col min-h-screen bg-gray-900">
-        <Navbar />
-        <main>
-          <Routes>
-            {/* Public Routes */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-
-            {/* Protected Routes */}
-            <Route
-              path="/"
-              element={
-                <CheckAuth>
-                  <Home />
-                </CheckAuth>
-              }
-            />
-            <Route
-              path="/generate-workout"
-              element={
-                <CheckAuth>
-                  <GenrateWorkoutPage />
-                </CheckAuth>
-              }
-            />
-            <Route
-              path="/get-workout/:workoutId"
-              element={
-                <CheckAuth>
-                  <GetWorkout />
-                </CheckAuth>
-              }
-            />
-            <Route
-              path="/generate_diet"
-              element={
-                <CheckAuth>
-                  <GenrateDietPage />
-                </CheckAuth>
-              }
-            />
-            <Route
-              path="/get_diet"
-              element={
-                <CheckAuth>
-                  <GetDiet />
-                </CheckAuth>
-              }
-            />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
+      <AppContent />
     </Router>
+  );
+}
+
+function AppContent() {
+  useAuthCheck(); // ✅ call it here, AFTER Router is initialized
+
+  return (
+    <div className="flex flex-col min-h-screen bg-gray-900">
+      <Navbar />
+      <main>
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+
+          {/* Protected Routes */}
+          <Route
+            path="/"
+            element={
+             
+                <Home />
+            
+            }
+          />
+          <Route
+            path="/generate-workout"
+            element={
+             
+                <GenrateWorkoutPage />
+              
+            }
+          />
+          <Route
+            path="/get-workout"
+            element={
+            
+                <GetWorkout />
+             
+            }
+          />
+          <Route
+            path="/generate_diet"
+            element={
+             
+                <GenrateDietPage />
+             
+            }
+          />
+          <Route
+            path="/get_diet"
+            element={
+              
+                <GetDiet />
+              
+            }
+          />
+        </Routes>
+      </main>
+      <Footer />
+    </div>
   );
 }
 

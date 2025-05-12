@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom'; // Import useParams to get workoutId from the URL
 import { motion } from 'framer-motion';
-import { GetWorkoutById } from '../api/workout.api.js';
+import { GetWorkout } from '../api/workout.api.js';
 import { FaDumbbell, FaCalendarAlt } from 'react-icons/fa';
 
 function GetWorkoutpage() {
   const [workout, setWorkout] = useState(null);
   const [error, setError] = useState(null);
-  const { workoutId } = useParams(); // Get workoutId from the URL
+  
 
   useEffect(() => {
     // Fetch the workout plan data from the backend
     const fetchWorkout = async () => {
       try {
-        const response = await GetWorkoutById(workoutId); // Fetch workout by workoutId
+        const response = await GetWorkout(); // Fetch workout by workoutId
         console.log('Workout plan:', response);
         setWorkout(response);
       } catch (error) {
@@ -23,7 +23,7 @@ function GetWorkoutpage() {
     };
 
     fetchWorkout();
-  }, [workoutId]);
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white p-4 mt-10">

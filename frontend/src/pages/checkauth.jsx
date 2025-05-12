@@ -1,18 +1,33 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+// src/hooks/useAuthCheck.js
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-const CheckAuth = ({ children }) => {
-  // Access the isAuthenticated state from Redux
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+import { getCurrentUser } from '../api/auth.api';
 
-  // If the user is not authenticated, redirect to login
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
 
-  // If the user is authenticated, render the protected component
-  return children;
+const useAuthCheck = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const res = await getCurrentUser();
+        console.log(res,"user authenticated");
+       
+      } catch (err) {
+        console.log('Not authenticated');
+      }
+        
+
+        // Redirect to login and save current location
+        navigate('/login')
+    
+
+    checkAuth();
+}}, []);
 };
 
-export default CheckAuth;
+export default useAuthCheck;

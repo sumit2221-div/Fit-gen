@@ -17,7 +17,7 @@ function GenrateWorkoutPage() {
       toast.success('Workout generated successfully!');
 
       // Redirect to the GetWorkout page with the workoutId
-      navigate(`/get-workout/${response._id}`);
+      navigate('./get-workout');
     } catch (error) {
       console.error('Error generating workout:', error);
       toast.error('Error generating workout.');

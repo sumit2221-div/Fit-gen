@@ -14,13 +14,13 @@ export const GenrateWorkout = async (workoutdata) => {
 
 
 // New function to get a workout plan by workoutId
-export const GetWorkoutById = async (workoutId) => {
+export const GetWorkout = async (workoutId) => {
     try {
-        const response = await API.get(`/workout/get-workout/${workoutId}`);
-        console.log("✅ Workout Retrieved by ID:", response.data);
+        const response = await API.get('/workout/get_workout');
+        console.log("✅ Workout Retrieved :", response.data);
         return response.data;
     } catch (error) {
-        console.error("Error while getting workout by ID:", error);
+        console.error("Error while getting workout :", error);
         throw error;
     }
 };
