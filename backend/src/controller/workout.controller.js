@@ -94,18 +94,18 @@ export const getGeneratedWorkoutPlan = async (req, res) => {
     const userId = req.user._id;
 
     try {
-        // Find the earliest workout plan created by the user
-        const firstWorkoutPlan = await WorkoutPlan.findOne({ userId })
-            .sort({ createdAt: 1 }) // ascending order → oldest first
+        // Find the latest workout plan created by the user
+        const latestWorkoutPlan = await WorkoutPlan.findOne({ userId })
+            .sort({ createdAt: -1 }) // newest first
             .populate('userId', 'username email');
 
-        if (!firstWorkoutPlan) {
+        if (!latestWorkoutPlan) {
             return res.status(404).json({ message: 'No workout plan found for this user' });
         }
 
-        res.status(200).json(firstWorkoutPlan);
+        res.status(200).json(latestWorkoutPlan);
     } catch (error) {
-        console.error("Error fetching first generated workout plan:", error);
+        console.error("Error fetching latest generated workout plan:", error);
         res.status(500).json({ message: 'Error fetching workout plan', error: error.message });
     }
 };
