@@ -57,13 +57,19 @@ export const GenrateWorkout = async (req, res) => {
       throw new Error("Invalid workout plan structure received.");
     }
 
-    // ✅ Sanitize exercises to avoid missing fields
+    // ✅ Sanitize exercises safely - check if exercises array exists before mapping
     workoutData.planDetails.forEach(day => {
-      day.exercises = day.exercises.map(ex => ({
-        name: ex.name || "Unnamed Exercise",
-        sets: typeof ex.sets === 'number' ? ex.sets : 3,
-        reps: typeof ex.reps === 'string' || typeof ex.reps === 'number' ? ex.reps : "12-15"
-      }));
+      if (Array.isArray(day.exercises)) {
+        day.exercises = day.exercises.map(ex => ({
+          name: ex.name || "Unnamed Exercise",
+          sets: typeof ex.sets === 'number' ? ex.sets : 3,
+          reps: typeof ex.reps === 'string' || typeof ex.reps === 'number' ? ex.reps : "12-15",
+          notes: ex.notes || ""
+        }));
+      } else {
+        // If no exercises provided for that day, set empty array (optional)
+        day.exercises = [];
+      }
     });
 
     console.log("Creating new workout plan...");
@@ -95,7 +101,6 @@ export const GenrateWorkout = async (req, res) => {
     res.status(500).json({ message: "Error generating workout plan", error: error.message });
   }
 };
-
 
 export const getGeneratedWorkoutPlan = async (req, res) => {
     const userId = req.user._id;
