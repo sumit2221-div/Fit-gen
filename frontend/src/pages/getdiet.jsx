@@ -5,7 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function GetDiet() {
-  const [dietPlan, setDietPlan] = useState(null);
+  const [dietPlan, setDietPlan] = useState([]); // Initialize as empty array
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -13,7 +13,12 @@ function GetDiet() {
     const fetchDietPlan = async () => {
       try {
         const response = await getDiet();
-        setDietPlan(response.dietplan);
+        // Set dietPlan to mealPlans array if present
+        if (response.dietplan && Array.isArray(response.dietplan.mealPlans)) {
+          setDietPlan(response.dietplan.mealPlans);
+        } else {
+          setDietPlan([]);
+        }
         setLoading(false);
       } catch (err) {
         setError("Failed to fetch diet plan. Please try again.");
@@ -65,15 +70,21 @@ function GetDiet() {
                 {meal.mealType}
               </h3>
               <ul className="space-y-2">
-                {meal.items.map((item, idx) => (
-                  <li
-                    key={idx}
-                    className="flex justify-between text-gray-300 text-lg"
-                  >
-                    <span>{item.name}</span>
-                    <span>{item.calories} kcal</span>
-                  </li>
-                ))}
+                {meal.foods &&
+                  meal.foods.map((item, idx) => (
+                    <li
+                      key={idx}
+                      className="flex justify-between text-gray-300 text-lg"
+                    >
+                      <span>
+                        {item.name} ({item.quantity})
+                      </span>
+                      <span>
+                        {item.calories} kcal | P: {item.protein}g | C: {item.carbs}g | F:{" "}
+                        {item.fat}g
+                      </span>
+                    </li>
+                  ))}
               </ul>
             </li>
           ))}
