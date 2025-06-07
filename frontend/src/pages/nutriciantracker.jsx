@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { AddMeal, GetMeal } from "../api/nutrition.api";
+import { AddMeal, GetMeal } from "../api/nutrician.api.js";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function NutritionTracker() {
   const [mealData, setMealData] = useState({
-meal: "",    weight: "",
+    meal: "",
+    weight: "",
   });
   const [meals, setMeals] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -20,9 +21,9 @@ meal: "",    weight: "",
     e.preventDefault();
     try {
       const response = await AddMeal(mealData);
-      setMeals([...meals, response]); // Add the new meal to the list
+      setMeals(Array.isArray(meals) ? [...meals, response] : [response]);
       toast.success("Meal added successfully!");
-      setMealData({ meal : "", weight : ""}); // Reset the form
+      setMealData({ meal: "", weight: "" });
     } catch (error) {
       toast.error("Failed to add meal. Please try again.");
     }
@@ -32,10 +33,11 @@ meal: "",    weight: "",
     const fetchMeals = async () => {
       try {
         const response = await GetMeal();
-        setMeals(response);
+        setMeals(Array.isArray(response) ? response : []);
         setLoading(false);
       } catch (error) {
         toast.error("Failed to fetch meals. Please try again.");
+        setMeals([]);
         setLoading(false);
       }
     };
@@ -65,31 +67,31 @@ meal: "",    weight: "",
         <form onSubmit={handleAddMeal} className="space-y-6">
           <div>
             <label htmlFor="meal" className="block text-gray-300 mb-2">
-              Meal Name
+              Meal
             </label>
             <input
               type="text"
               id="meal"
               name="meal"
-              value={mealData.name}
+              value={mealData.meal}
               onChange={handleChange}
               className="w-full p-3 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
-              placeholder="Enter meal name"
+              placeholder="Enter meal"
               required
             />
           </div>
           <div>
             <label htmlFor="weight" className="block text-gray-300 mb-2">
-              weight
+              Weight (grams)
             </label>
             <input
               type="number"
               id="weight"
-              name="calories"
-              value={mealData.calories}
+              name="weight"
+              value={mealData.weight}
               onChange={handleChange}
               className="w-full p-3 rounded-lg bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
-              placeholder="Enter calories"
+              placeholder="Enter meal weight in grams"
               required
             />
           </div>
@@ -105,13 +107,13 @@ meal: "",    weight: "",
         <div className="mt-8">
           <h3 className="text-2xl font-bold text-orange-500 mb-4">Your Meals</h3>
           <ul className="space-y-4">
-            {meals.map((meal, index) => (
+            {(Array.isArray(meals) ? meals : []).map((meal, index) => (
               <li
                 key={index}
                 className="bg-gray-700 p-4 rounded-lg shadow-md flex justify-between items-center"
               >
-                <span className="text-lg font-semibold">{meal.name}</span>
-                <span className="text-lg text-gray-300">{meal.calories} kcal</span>
+                <span className="text-lg font-semibold">{meal.meal}</span>
+                <span className="text-lg text-gray-300">{meal.weight} g</span>
               </li>
             ))}
           </ul>

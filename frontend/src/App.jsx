@@ -10,6 +10,8 @@ import GetWorkout from "./pages/GetWorkout.jsx";
 import GenrateDietPage from "./pages/genratediet.jsx";
 import GetDiet from "./pages/getdiet.jsx";
 import useAuthCheck from "./pages/checkauth.jsx" // ✅ import the hook
+import MotivationWellness from "./pages/MotivationWellness.jsx";
+import NutritionTracker from "./pages/nutriciantracker.jsx";
 
 function App() {
   return (
@@ -48,6 +50,14 @@ function AppContent() {
               
             }
           />
+            <Route
+            path="/track-nutrition"
+            element={
+             
+                < NutritionTracker />
+              
+            }
+          />
           <Route
             path="/get-workout"
             element={
@@ -72,6 +82,7 @@ function AppContent() {
               
             }
           />
+          <Route path="/motivation-wellness" element={<MotivationWellness />} />
         </Routes>
       </main>
       <Footer />

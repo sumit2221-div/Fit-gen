@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../store/authslice";
 import logo from "../assets/Fit-gen.png";
@@ -9,31 +9,41 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const location = useLocation();
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
   const handleLogout = () => {
     dispatch(logoutUser());
+    setIsOpen(false);
   };
 
+  // Helper for active link styling
+  const navLinkClass = (path) =>
+    `transition duration-300 px-3 py-1 rounded-full ${
+      location.pathname === path
+        ? "bg-orange-500 text-black font-bold shadow"
+        : "hover:text-orange-500"
+    }`;
+
   return (
-    <nav className="fixed mx-auto w-[80%] md:w-[60%] rounded-full transition-all duration-300 ring-amber-700 text-white z-50">
-      <div className="container mx-auto flex items-center justify-between py-4 px-6">
+    <nav className="fixed left-1/2 -translate-x-1/2 top-6 w-[90%] md:w-[70%] bg-gradient-to-r from-gray-900 via-gray-800 to-black/80 rounded-full shadow-lg ring-2 ring-orange-500/30 text-white z-50 backdrop-blur-md">
+      <div className="flex items-center justify-between py-3 px-6">
         {/* Logo */}
-        <Link to="/" className="flex items-center">
-          <img src={logo} alt="Fit-Gen Logo" className="h-10 w-auto" />
-          <span className="ml-3 text-2xl font-bold text-orange-500">FIT-GEN</span>
+        <Link to="/" className="flex items-center" onClick={() => setIsOpen(false)}>
+          <img src={logo} alt="Fit-Gen Logo" className="h-10 w-auto rounded-lg shadow-md" />
+          <span className="ml-3 text-2xl font-extrabold text-orange-500 tracking-wide">FIT-GEN</span>
         </Link>
 
-        {/* Navigation Links */}
-        <div className="hidden md:flex space-x-8">
-          <Link to="/" className="hover:text-orange-500 transition duration-300">Home</Link>
-          <Link to="/get-workout"className="hover:text-orange-500 transition duration-300">Workout</Link>
-          <Link to="/generate_diet" className="hover:text-orange-500 transition duration-300">Diet</Link>
+        {/* Desktop Navigation Links */}
+        <div className="hidden md:flex space-x-6 items-center">
+          <Link to="/" className={navLinkClass("/")}>Home</Link>
+          <Link to="/get-workout" className={navLinkClass("/get-workout")}>Workout</Link>
+          <Link to="/generate_diet" className={navLinkClass("/generate_diet")}>Diet</Link>
           {user ? (
-            <button onClick={handleLogout} className="hover:text-orange-500 transition duration-300">Logout</button>
+            <button onClick={handleLogout} className="ml-2 hover:text-orange-500 transition duration-300">Logout</button>
           ) : (
-            <Link to="/login" className="hover:text-orange-500 transition duration-300">Login</Link>
+            <Link to="/login" className={navLinkClass("/login")}>Login</Link>
           )}
         </div>
 
@@ -47,17 +57,27 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       <div
-        className={`md:hidden bg-gray-800/80 text-white backdrop-blur-md rounded-lg overflow-hidden transition-all duration-300 ${
+        className={`md:hidden bg-gray-900/95 text-white backdrop-blur-md rounded-b-2xl overflow-hidden transition-all duration-300 ${
           isOpen ? "max-h-60 py-4 px-6" : "max-h-0"
         }`}
       >
-        <Link to="/" className="block py-2 hover:text-orange-500 transition duration-300">Home</Link>
-        <Link to="/get-workout" className="block py-2 hover:text-orange-500 transition duration-300">Workout</Link>
-        <Link to="/services" className="block py-2 hover:text-orange-500 transition duration-300">Nutrition</Link>
+        <Link to="/" className="block py-2" onClick={() => setIsOpen(false)}>
+          Home
+        </Link>
+        <Link to="/get-workout/your-id" className="block py-2" onClick={() => setIsOpen(false)}>
+          Workout
+        </Link>
+        <Link to="/generate_diet" className="block py-2" onClick={() => setIsOpen(false)}>
+          Diet
+        </Link>
         {user ? (
-          <button onClick={handleLogout} className="block py-2 hover:text-orange-500 transition duration-300">Logout</button>
+          <button onClick={handleLogout} className="block py-2 hover:text-orange-500 transition duration-300">
+            Logout
+          </button>
         ) : (
-          <Link to="/login" className="block py-2 hover:text-orange-500 transition duration-300">Login</Link>
+          <Link to="/login" className="block py-2" onClick={() => setIsOpen(false)}>
+            Login
+          </Link>
         )}
       </div>
     </nav>

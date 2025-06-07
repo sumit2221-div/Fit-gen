@@ -1,7 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import Nutrition from "../model/nutrition.model.js";
 
-
 // Function to add a meal and calculate nutrition
 export const addMeal = async (req, res) => {
   const { meal, weight } = req.body;
@@ -13,7 +12,7 @@ export const addMeal = async (req, res) => {
 
   try {
     console.log("Initializing Google Generative AI client...");
-    const genAI = new GoogleGenerativeAI( process.env.API_KEY );
+    const genAI = new GoogleGenerativeAI(process.env.API_KEY);
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     const prompt = `Provide the nutritional information for ${weight} grams of ${meal}. Respond in JSON format with the following structure:
@@ -31,16 +30,18 @@ export const addMeal = async (req, res) => {
       throw new Error("Invalid response from AI model.");
     }
 
-    const aiOutput = await response.response.text();  // Await the text if it's a Promise
-    console.log("AI response:", aiOutput); // Log the raw response to check for errors in format
+    const aiOutput = await response.response.text();
+    console.log("AI response:", aiOutput);
 
-    // Remove the markdown code block syntax (```json or ```)
-    const cleanedOutput = aiOutput.replace(/```json|```/g, '').trim();
-
-    // Parse the cleaned AI output into JSON format
+    // Extract the first JSON object from the AI response
     let nutritionData;
     try {
-      nutritionData = JSON.parse(cleanedOutput);
+      const match = aiOutput.match(/{[\s\S]*?}/);
+      if (match) {
+        nutritionData = JSON.parse(match[0]);
+      } else {
+        throw new Error("No JSON found in AI response");
+      }
     } catch (parseError) {
       console.error("Error parsing AI response:", parseError);
       throw new Error("Failed to parse nutrition information response.");
