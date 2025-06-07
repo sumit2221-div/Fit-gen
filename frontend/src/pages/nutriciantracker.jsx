@@ -35,6 +35,7 @@ function NutritionTracker() {
         const response = await GetMeal();
         setMeals(Array.isArray(response) ? response : []);
         setLoading(false);
+        console.log("Fetched meals:", response);
       } catch (error) {
         toast.error("Failed to fetch meals. Please try again.");
         setMeals([]);
@@ -54,7 +55,7 @@ function NutritionTracker() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-6">
+    <div className="min-h-screen bg-gray-900 text-white p-6 mt-10">
       <motion.div
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}

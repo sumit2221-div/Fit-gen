@@ -73,8 +73,10 @@ export const getTotalNutrition = async (req, res) => {
   startOfDay.setHours(0, 0, 0, 0);
 
   try {
+    // Fetch all meals for the user for today
     const nutritionData = await Nutrition.find({ userId, date: { $gte: startOfDay } });
 
+    // Calculate totals
     const totalNutrition = nutritionData.reduce(
       (totals, item) => {
         totals.calories += item.calories;
@@ -86,7 +88,22 @@ export const getTotalNutrition = async (req, res) => {
       { calories: 0, protein: 0, carbs: 0, fat: 0 }
     );
 
-    res.status(200).json({ message: "Total nutrition calculated successfully", totalNutrition });
+    // Collect meal names for today
+    const meals = nutritionData.map(item => ({
+      meal: item.meal,
+      weight: item.weight,
+      calories: item.calories,
+      protein: item.protein,
+      carbs: item.carbs,
+      fat: item.fat,
+      date: item.date,
+    }));
+
+    res.status(200).json({
+      message: "Total nutrition calculated successfully",
+      totalNutrition,
+      meals, // send meal details to frontend
+    });
   } catch (error) {
     console.error("Error calculating total nutrition:", error);
     res.status(500).json({ message: "Error calculating total nutrition", error: error.message });
