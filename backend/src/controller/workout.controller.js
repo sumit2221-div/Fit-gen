@@ -112,7 +112,8 @@ export const getGeneratedWorkoutPlan = async (req, res) => {
             .populate('userId', 'username email');
 
         if (!latestWorkoutPlan) {
-            return res.status(404).json({ message: 'No workout plan found for this user' });
+            // Send a 200 status with a message and no error
+            return res.status(200).json({ message: 'No workout plan found for this user', workoutPlan: null });
         }
 
         res.status(200).json(latestWorkoutPlan);

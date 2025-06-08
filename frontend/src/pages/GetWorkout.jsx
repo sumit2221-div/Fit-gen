@@ -85,8 +85,17 @@ function GetWorkoutpage() {
           transition={{ duration: 0.5 }}
           className="bg-gray-800 p-8 rounded-2xl shadow-2xl max-w-md w-full text-center"
         >
-          <h2 className="text-3xl font-bold text-orange-500 mb-6">Loading...</h2>
-          <p className="mb-6">Fetching your workout plan. Please wait.</p>
+          <h2 className="text-3xl font-bold text-orange-500 mb-6">No Workout Plan</h2>
+          <p className="mb-6">You don't have generated any plan.</p>
+          <Link to="/generate-workout">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-full py-3 bg-orange-500 text-black font-semibold rounded-lg hover:bg-orange-600 transition duration-300"
+            >
+              Generate Workout
+            </motion.button>
+          </Link>
         </motion.div>
       )}
     </div>

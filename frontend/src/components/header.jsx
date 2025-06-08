@@ -1,30 +1,53 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
-import { Link, useLocation } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { logoutUser } from "../store/authslice";
 import logo from "../assets/Fit-gen.png";
+import { getCurrentUser } from "../api/auth.api"; // Import API directly
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
   const location = useLocation();
+  const navigate = useNavigate();
+  const checkedRef = useRef(false);
+
+  // Check auth on mount
+  useEffect(() => {
+    if (checkedRef.current) return;
+    checkedRef.current = true;
+    const checkAuth = async () => {
+      try {
+        await getCurrentUser();
+        setIsAuthenticated(true);
+      } catch (err) {
+        setIsAuthenticated(false);
+        navigate("/login");
+      }
+    };
+    checkAuth();
+  }, [navigate]);
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
   const handleLogout = () => {
     dispatch(logoutUser());
     setIsOpen(false);
+    setIsAuthenticated(false);
+    navigate("/login");
   };
 
-  // Helper for active link styling
   const navLinkClass = (path) =>
     `transition duration-300 px-3 py-1 rounded-full ${
       location.pathname === path
         ? "bg-orange-500 text-black font-bold shadow"
         : "hover:text-orange-500"
     }`;
+
+  // Optionally, show nothing until auth is checked
+  if (isAuthenticated === null) return null;
 
   return (
     <nav className="fixed left-1/2 -translate-x-1/2 top-6 w-[90%] md:w-[70%] bg-gradient-to-r from-gray-900 via-gray-800 to-black/80 rounded-full shadow-lg ring-2 ring-orange-500/30 text-white z-50 backdrop-blur-md">
@@ -40,7 +63,7 @@ const Navbar = () => {
           <Link to="/" className={navLinkClass("/")}>Home</Link>
           <Link to="/get-workout" className={navLinkClass("/get-workout")}>Workout</Link>
           <Link to="/generate_diet" className={navLinkClass("/generate_diet")}>Diet</Link>
-          {user ? (
+          {isAuthenticated ? (
             <button onClick={handleLogout} className="ml-2 hover:text-orange-500 transition duration-300">Logout</button>
           ) : (
             <Link to="/login" className={navLinkClass("/login")}>Login</Link>
@@ -64,13 +87,13 @@ const Navbar = () => {
         <Link to="/" className="block py-2" onClick={() => setIsOpen(false)}>
           Home
         </Link>
-        <Link to="/get-workout/your-id" className="block py-2" onClick={() => setIsOpen(false)}>
+        <Link to="/get-workout" className="block py-2" onClick={() => setIsOpen(false)}>
           Workout
         </Link>
-        <Link to="/generate_diet" className="block py-2" onClick={() => setIsOpen(false)}>
+        <Link to="" className="block py-2" onClick={() => setIsOpen(false)}>
           Diet
         </Link>
-        {user ? (
+        {isAuthenticated ? (
           <button onClick={handleLogout} className="block py-2 hover:text-orange-500 transition duration-300">
             Logout
           </button>
