@@ -12,7 +12,16 @@ function GetWorkoutpage() {
     const fetchWorkout = async () => {
       try {
         const response = await GetWorkout();
-        setWorkout(response);
+        // Handle the case where workoutPlan is null (no plan generated)
+        if (response && response.workoutPlan === null) {
+          setWorkout(null);
+        } else if (response && response.planName) {
+          setWorkout(response);
+        } else if (response && response.planDetails) {
+          setWorkout(response);
+        } else {
+          setWorkout(null);
+        }
       } catch (error) {
         setError('Failed to fetch workout plan. Please try again.');
       }

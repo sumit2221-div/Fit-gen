@@ -70,6 +70,7 @@ function Home() {
             Features
           </motion.h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10 items-stretch justify-center">
+            <Link to="/get-workout" className="w-full max-w-xs mx-auto">
             <motion.div
               whileHover={{ scale: 1.05, boxShadow: "0 8px 32px 0 rgba(255,140,0,0.25)" }}
               transition={{ type: "spring", stiffness: 300 }}
@@ -81,6 +82,7 @@ function Home() {
                 Log your workouts, follow custom plans, and visualize your progress with interactive charts.
               </p>
             </motion.div>
+            </Link>
             <Link to="/track-nutrition" className="w-full max-w-xs mx-auto">
             <motion.div
               whileHover={{ scale: 1.05, boxShadow: "0 8px 32px 0 rgba(0,255,127,0.18)" }}

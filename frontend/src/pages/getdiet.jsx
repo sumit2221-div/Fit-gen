@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { getDiet } from "../api/diet.api";
+import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function GetDiet() {
-  const [dietPlan, setDietPlan] = useState([]); // Initialize as empty array
+  const [dietPlan, setDietPlan] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -13,8 +14,9 @@ function GetDiet() {
     const fetchDietPlan = async () => {
       try {
         const response = await getDiet();
-        // Set dietPlan to mealPlans array if present
-        if (response.dietplan && Array.isArray(response.dietplan.mealPlans)) {
+        if (response.mealPlans && Array.isArray(response.mealPlans)) {
+          setDietPlan(response.mealPlans);
+        } else if (response.dietplan && Array.isArray(response.dietplan.mealPlans)) {
           setDietPlan(response.dietplan.mealPlans);
         } else {
           setDietPlan([]);
@@ -33,7 +35,9 @@ function GetDiet() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white">
-        <p className="text-lg font-semibold">Loading your diet plan...</p>
+        <span className="text-xl font-bold text-orange-400">
+          Loading...
+        </span>
       </div>
     );
   }
@@ -42,16 +46,22 @@ function GetDiet() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white">
         <p className="text-lg font-semibold text-red-500">{error}</p>
+        <Link to="/generate_diet">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="mt-8 px-6 py-3 bg-orange-500 text-black font-semibold rounded-lg hover:bg-orange-600 transition duration-300"
+          >
+            Generate New Diet Plan
+          </motion.button>
+        </Link>
       </div>
     );
   }
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
-      <motion.div
-        initial={{ opacity: 0, y: -50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+      <div
         className="max-w-4xl mx-auto bg-gray-800 p-8 rounded-lg shadow-lg"
       >
         <h2 className="text-3xl font-bold text-orange-500 text-center mb-6">
@@ -89,7 +99,18 @@ function GetDiet() {
             </li>
           ))}
         </ul>
-      </motion.div>
+        <div className="flex justify-center mt-10">
+          <Link to="/generate_diet">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-8 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-black font-bold rounded-lg shadow-lg hover:from-orange-600 hover:to-orange-700 transition duration-300"
+            >
+              Generate New Diet Plan
+            </motion.button>
+          </Link>
+        </div>
+      </div>
       <ToastContainer />
     </div>
   );

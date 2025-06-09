@@ -44,7 +44,7 @@ export const logout = async () => {
 
 export const getCurrentUser = async () => {
     try {
-        const response = await API.get("/api/auth/current-user", { withCredentials: true });
+        const response = await API.get("/auth/current-user", { withCredentials: true });
         return response.data;
     } catch (error) {
         console.error("Error while finding user:", error);

@@ -62,7 +62,7 @@ const Navbar = () => {
         <div className="hidden md:flex space-x-6 items-center">
           <Link to="/" className={navLinkClass("/")}>Home</Link>
           <Link to="/get-workout" className={navLinkClass("/get-workout")}>Workout</Link>
-          <Link to="/generate_diet" className={navLinkClass("/generate_diet")}>Diet</Link>
+          <Link to="/get_diet" className={navLinkClass("/generate_diet")}>Diet</Link>
           {isAuthenticated ? (
             <button onClick={handleLogout} className="ml-2 hover:text-orange-500 transition duration-300">Logout</button>
           ) : (
