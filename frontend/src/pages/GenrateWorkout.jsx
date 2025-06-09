@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { GenrateWorkout } from '../api/workout.api.js';
 import { ToastContainer, toast } from 'react-toastify';
@@ -11,8 +11,10 @@ import { FaDumbbell, FaUser, FaVenusMars, FaRulerVertical, FaWeight, FaBullseye 
 function GenrateWorkoutPage() {
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false); // Add loading state
 
   const onSubmit = async (data) => {
+    setLoading(true); // Start loading
     try {
       const response = await GenrateWorkout(data);
       toast.success('Workout generated successfully!');
@@ -21,6 +23,8 @@ function GenrateWorkoutPage() {
       reset();
     } catch (error) {
       toast.error('Error generating workout.');
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
@@ -138,9 +142,20 @@ function GenrateWorkoutPage() {
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
               type="submit"
-              className="w-full py-2 bg-gradient-to-r from-orange-500 to-orange-600 text-black font-semibold rounded-lg hover:from-orange-600 hover:to-orange-700 transition duration-300 shadow-lg"
+              className="w-full py-2 bg-gradient-to-r from-orange-500 to-orange-600 text-black font-semibold rounded-lg hover:from-orange-600 hover:to-orange-700 transition duration-300 shadow-lg flex items-center justify-center"
+              disabled={loading}
             >
-              Generate Workout
+              {loading ? (
+                <span className="flex items-center gap-2">
+                  <svg className="animate-spin h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                  </svg>
+                  Generating...
+                </span>
+              ) : (
+                "Generate Workout"
+              )}
             </motion.button>
           </form>
         </div>

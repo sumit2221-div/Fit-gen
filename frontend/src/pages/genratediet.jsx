@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { genrateDiet } from '../api/diet.api.js';
 import { ToastContainer, toast } from 'react-toastify';
@@ -8,28 +8,27 @@ import { useNavigate } from 'react-router-dom';
 
 function GenrateDietPage() {
   const { register, handleSubmit, formState: { errors } } = useForm();
-
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false); // Add loading state
 
   const onSubmit = async (data) => {
+    setLoading(true); // Start loading
     try {
       const response = await genrateDiet(data);
-      console.log('diet generated successfully:', response);
       toast.success('diet generated successfully!');
-      navigate("/get_diet")
-      // Handle success (e.g., show a success message, redirect, etc.)
+      navigate("/get_diet");
     } catch (error) {
-      console.error('Error generating diet:', error);
       toast.error('Error generating diet.');
-      // Handle error (e.g., show an error message)
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
   return (
-    <div className="min-h-screen flex">
-      <div className="w-1/2 bg-gradient-to-r from-gray-800 to-gray-500 flex items-center justify-center">
+    <div className="min-h-screen flex flex-col md:flex-row">
+      <div className="md:w-1/2 bg-gradient-to-r from-gray-800 to-gray-500 flex items-center justify-center">
         <div className="text-center text-white p-8">
-        <SplitText
+          <SplitText
             text="Welcome to Fit-Gen"
             className="text-5xl font-extrabold text-center text-amber-500"
             delay={150}
@@ -42,7 +41,7 @@ function GenrateDietPage() {
           <p className="text-lg">Generate a personalized diet plan to achieve your fitness goals.</p>
         </div>
       </div>
-      <div className="w-1/2 bg-gray-900 flex items-center justify-center">
+      <div className="md:w-1/2 bg-gray-900 flex items-center justify-center">
         <div className="bg-gray-800 p-8 rounded-lg shadow-lg max-w-md w-full">
           <h2 className="text-3xl font-bold text-center text-orange-500 mb-6">Generate Diet</h2>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -106,9 +105,20 @@ function GenrateDietPage() {
             </div>
             <button
               type="submit"
-              className="w-full py-2 bg-orange-500 text-black font-semibold rounded-lg hover:bg-orange-600 transition duration-300"
+              className="w-full py-2 bg-orange-500 text-black font-semibold rounded-lg hover:bg-orange-600 transition duration-300 flex items-center justify-center"
+              disabled={loading}
             >
-              Generate Diet
+              {loading ? (
+                <span className="flex items-center gap-2">
+                  <svg className="animate-spin h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                  </svg>
+                  Generating...
+                </span>
+              ) : (
+                "Generate Diet"
+              )}
             </button>
           </form>
         </div>
