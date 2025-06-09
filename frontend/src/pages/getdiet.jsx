@@ -14,7 +14,10 @@ function GetDiet() {
     const fetchDietPlan = async () => {
       try {
         const response = await getDiet();
-        if (response.mealPlans && Array.isArray(response.mealPlans)) {
+        // Handle "not found" message from backend
+        if (response?.dietPlan === null || response?.message === "Diet plan not found") {
+          setDietPlan([]);
+        } else if (response.mealPlans && Array.isArray(response.mealPlans)) {
           setDietPlan(response.mealPlans);
         } else if (response.dietplan && Array.isArray(response.dietplan.mealPlans)) {
           setDietPlan(response.dietplan.mealPlans);
@@ -44,7 +47,7 @@ function GetDiet() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white">
         <p className="text-lg font-semibold text-red-500">{error}</p>
         <Link to="/generate_diet">
           <motion.button
@@ -59,16 +62,36 @@ function GetDiet() {
     );
   }
 
+  // If no diet plan found, show a friendly message and button
+  if (!dietPlan || dietPlan.length === 0) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-900 text-white">
+        <h2 className="text-3xl font-bold text-orange-500 mb-4">No Diet Plan Found</h2>
+        <p className="text-lg text-gray-300 mb-8 text-center">
+          You don't have a diet plan yet. Generate a personalized AI-based diet plan to get started!
+        </p>
+        <Link to="/generate_diet">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="px-8 py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-black font-bold rounded-lg shadow-lg hover:from-orange-600 hover:to-orange-700 transition duration-300"
+          >
+            Generate New Diet Plan
+          </motion.button>
+        </Link>
+        <ToastContainer />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
-      <div
-        className="max-w-4xl mx-auto bg-gray-800 p-8 rounded-lg shadow-lg"
-      >
+      <div className="max-w-4xl mx-auto bg-gray-800 p-8 rounded-lg shadow-lg">
         <h2 className="text-3xl font-bold text-orange-500 text-center mb-6">
-          Your Diet Plan
+          Your AI-Based Diet Plan
         </h2>
         <p className="text-lg text-gray-300 text-center mb-8">
-          Stay on track with your personalized diet plan.
+          Stay on track with your personalized, AI-generated diet plan.
         </p>
         <ul className="space-y-6">
           {dietPlan.map((meal, index) => (

@@ -81,7 +81,7 @@ export const GenrateDiet = async (req, res) => {
     }
 };
 
- export const GetDietbyId = async(req,res) => {
+export const GetDietbyId = async (req, res) => {
     const userId = req.user._id;
 
     try {
@@ -94,7 +94,8 @@ export const GenrateDiet = async (req, res) => {
         const dietPlan = await DietPlan.findOne({ userId });
 
         if (!dietPlan) {
-            return res.status(404).json({ message: "Diet plan not found" });
+            // Send a message, not an error status
+            return res.status(200).json({ message: "Diet plan not found", dietPlan: null });
         }
 
         res.status(200).json(dietPlan);
@@ -102,4 +103,4 @@ export const GenrateDiet = async (req, res) => {
         console.error("Error fetching diet plan:", error);
         res.status(500).json({ message: "Error fetching diet plan", error: error.message });
     }
-}
+};
