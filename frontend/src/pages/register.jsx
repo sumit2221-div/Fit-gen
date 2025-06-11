@@ -3,24 +3,29 @@ import { useForm } from 'react-hook-form';
 import { RegisterUser } from '../api/auth.api.js';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
-import { motion } from 'framer-motion'; // Import motion from framer-motion
+import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
+import { motion } from 'framer-motion';
 
 function Register() {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate(); // Initialize navigate
 
   const onSubmit = async (data) => {
     setLoading(true);
     try {
       const response = await RegisterUser(data);
       console.log('User registered successfully:', response);
-      toast.success('User registered successfully!');
-      // Handle success (e.g., show a success message, redirect)
+      toast.success('User registered successfully! Redirecting...');
+      
+      // Navigate to login after a delay to show toast
+      setTimeout(() => {
+        navigate('/login');
+      }, 1500);
+
     } catch (error) {
       console.error('Error registering user:', error);
       toast.error('Error registering user.');
-      // Handle error (e.g., show an error message)
     } finally {
       setLoading(false);
     }
