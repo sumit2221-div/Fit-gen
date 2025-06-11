@@ -75,9 +75,7 @@ For a detailed step-by-step guide, visit the **User Manual** page within the app
 
 ---
 
-## 📄 License
 
-This project is licensed under the MIT License.
 
 ---
 
