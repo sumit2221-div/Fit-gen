@@ -53,22 +53,33 @@ npm install
 cd ../frontend
 npm install
 
- User Manual
-Login/Register: Create an account or log in to access all features.
-Generate Plans: Use the "Generate Workout" and "Generate Diet" pages to create your personalized plans.
-Track Progress: Log your workouts and meals, and view your analytics.
-Explore Activities: Try running, cycling, swimming, and yoga programs.
-Join the Community: Connect, share, and get motivated.
-Logout: Use the navbar to securely log out.
-For a detailed guide, visit the User Manual page in the app.
+## 📚 User Manual
 
-🤖 Tech Stack
-Frontend: React, Tailwind CSS, Framer Motion, React Router
-Backend: Node.js, Express, MongoDB, Mongoose
-Authentication: JWT, Redux
-AI Integration: Custom AI logic for plan generation
-📄 License
+- **Login/Register:** Create an account or log in to access all features.
+- **Generate Plans:** Use the "Generate Workout" and "Generate Diet" pages to create your personalized, AI-powered plans.
+- **Track Progress:** Log your workouts and meals, and view your analytics and progress charts.
+- **Explore Activities:** Try specialized programs for running, cycling, swimming, and yoga.
+- **Join the Community:** Connect with other users, share your journey, and get motivated.
+- **Logout:** Use the navbar to securely log out at any time.
+
+For a detailed step-by-step guide, visit the **User Manual** page within the app.
+
+---
+
+## 🤖 Tech Stack
+
+- **Frontend:** React, Tailwind CSS, Framer Motion, React Router
+- **Backend:** Node.js, Express, MongoDB, Mongoose
+- **Authentication:** JWT, Redux
+- **AI Integration:** Custom AI logic for plan generation
+
+---
+
+## 📄 License
+
 This project is licensed under the MIT License.
 
-Start your AI-powered fitness journey with FIT-GEN today!
+---
+
+**Start your AI-powered fitness journey with FIT-GEN today!**
 
