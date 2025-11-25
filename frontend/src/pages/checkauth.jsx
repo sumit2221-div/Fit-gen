@@ -1,29 +1,46 @@
 // src/hooks/useAuthCheck.js
+
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { getCurrentUser } from '../api/auth.api';
 
+// PUBLIC ROUTES (no login required)
+const PUBLIC_ROUTES = ['/', '/login', '/register', '/motivation-wellness'];
+
 const useAuthCheck = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    const checkAuth = async () => {
+    const currentPath = location.pathname;
+
+    // Skip auth check for public pages
+    if (PUBLIC_ROUTES.includes(currentPath)) return;
+
+    // Check if token exists
+    const token = localStorage.getItem("accessToken");
+
+    if (!token) {
+      // No token → redirect immediately
+      navigate("/login", { state: { from: currentPath } });
+      return;
+    }
+
+    // Validate token by hitting backend
+    const verifyUser = async () => {
       try {
-        const res = await getCurrentUser();
-        // User is authenticated, do nothing
-        console.log(res, "user authenticated");
+        await getCurrentUser();  // Valid token
       } catch (err) {
-        console.log('Not authenticated');
-        // Redirect to login and save current location for redirect after login
-        navigate('/login', { state: { from: location.pathname } });
+        // Token invalid or expired → clear storage & redirect
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+
+        navigate("/login", { state: { from: currentPath } });
       }
     };
 
-    checkAuth();
-  }, [navigate, location]);
+    verifyUser();
+  }, [location.pathname]);
 };
 
 export default useAuthCheck;

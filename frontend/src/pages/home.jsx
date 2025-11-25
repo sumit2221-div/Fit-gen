@@ -3,12 +3,9 @@ import {
   FaDumbbell,
   FaAppleAlt,
   FaHeartbeat,
-  FaChartLine,
   FaUsers,
   FaMedal,
-  FaBookOpen,
-  FaSmile,
-  FaCrown,
+  FaChartLine,
   FaRunning,
   FaBiking,
   FaSwimmer,
@@ -22,9 +19,13 @@ import { Link } from "react-router-dom";
 function Home() {
   return (
     <>
+      {/* Spacer for Navbar */}
+      <div className="h-20"></div>
+
       {/* Hero Section */}
       <div
-        className="w-screen min-h-[60vh] bg-gradient-to-br from-orange-500/80 via-gray-900/90 to-black flex flex-col items-center justify-center text-white relative"
+        className="w-full min-h-[60vh] bg-gradient-to-br from-orange-500/80 via-gray-900/90 to-black
+        flex flex-col items-center justify-center text-white relative"
         style={{
           backgroundImage:
             "url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1500&q=80')",
@@ -36,206 +37,139 @@ function Home() {
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-5xl md:text-6xl font-extrabold text-center text-white drop-shadow-lg mt-24"
+          className="text-5xl md:text-6xl font-extrabold text-center drop-shadow-lg mt-10"
         >
           Achieve Your <span className="text-orange-400">Fitness Goals</span>
         </motion.h1>
+
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="mt-6 text-2xl text-gray-200 md:max-w-2xl mx-auto text-center"
+          className="mt-6 text-xl md:text-2xl text-gray-200 max-w-2xl text-center px-4"
         >
           Personalized workouts, nutrition tracking, and a supportive community—all in one place.
         </motion.p>
+
         <motion.a
           href="#features"
           whileHover={{ scale: 1.07 }}
           whileTap={{ scale: 0.97 }}
-          className="mt-10 px-10 py-4 bg-gradient-to-r from-orange-400 to-orange-600 text-black font-bold rounded-full shadow-lg hover:from-orange-500 hover:to-orange-700 transition duration-300 inline-block text-lg"
+          className="mt-10 px-10 py-4 bg-gradient-to-r from-orange-400 to-orange-600
+          text-black font-bold rounded-full shadow-lg text-lg"
         >
           Explore Features
         </motion.a>
       </div>
 
       {/* Features Section */}
-      <div className="min-h-screen w-full bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center py-16" id="features">
-        <div className="container mx-auto text-center text-white">
-          <motion.h2
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            className="text-4xl font-extrabold text-orange-400 mb-12 drop-shadow-lg"
-          >
-            Features
-          </motion.h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 items-stretch justify-center">
-            <Link to="/get-workout" className="w-full max-w-xs mx-auto">
+      <div id="features" className="w-full py-16 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+        <h2 className="text-4xl font-extrabold text-orange-400 text-center mb-12">
+          Features
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 px-4 max-w-6xl mx-auto">
+          {/* Workout */}
+          <Link to="/get-workout">
             <motion.div
-              whileHover={{ scale: 1.05, boxShadow: "0 8px 32px 0 rgba(255,140,0,0.25)" }}
-              transition={{ type: "spring", stiffness: 300 }}
-              className="p-8 bg-gray-800 rounded-2xl shadow-xl flex flex-col items-center w-full max-w-xs mx-auto border border-orange-400"
+              whileHover={{ scale: 1.05 }}
+              className="p-8 bg-gray-800 border border-orange-400 rounded-2xl shadow-xl text-center"
             >
-              <FaDumbbell className="text-5xl text-orange-400 mb-4 drop-shadow-lg" />
-              <h3 className="text-2xl font-bold text-orange-300 mb-2">Workout Tracker</h3>
-              <p className="mt-2 text-lg text-gray-300 text-center">
-                Log your workouts, follow custom plans, and visualize your progress with interactive charts.
+              <FaDumbbell className="text-5xl text-orange-400 mx-auto mb-4" />
+              <h3 className="text-2xl font-bold text-orange-300">Workout Tracker</h3>
+              <p className="text-gray-300 mt-2">
+                Log workouts, follow plans, and analyze progress.
               </p>
             </motion.div>
-            </Link>
-            <Link to="/track-nutrition" className="w-full max-w-xs mx-auto">
+          </Link>
+
+          {/* Nutrition */}
+          <Link to="/track-nutrition">
             <motion.div
-              whileHover={{ scale: 1.05, boxShadow: "0 8px 32px 0 rgba(0,255,127,0.18)" }}
-              transition={{ type: "spring", stiffness: 300 }}
-              className="p-8 bg-gray-800 rounded-2xl shadow-xl flex flex-col items-center w-full max-w-xs mx-auto border border-green-400"
+              whileHover={{ scale: 1.05 }}
+              className="p-8 bg-gray-800 border border-green-400 rounded-2xl shadow-xl text-center"
             >
-              <FaAppleAlt className="text-5xl text-green-400 mb-4 drop-shadow-lg" />
-              <h3 className="text-2xl font-bold text-green-300 mb-2">Nutrition Tracker</h3>
-              <p className="mt-2 text-lg text-gray-300 text-center">
-                Track your daily meals, calories, and macros. Get AI-powered diet recommendations.
+              <FaAppleAlt className="text-5xl text-green-400 mx-auto mb-4" />
+              <h3 className="text-2xl font-bold text-green-300">Nutrition Tracker</h3>
+              <p className="text-gray-300 mt-2">
+                Track meals, calories, and macros with AI suggestions.
               </p>
             </motion.div>
-            </Link>
-            <Link to="/motivation-wellness" className="w-full max-w-xs mx-auto">
+          </Link>
+
+          {/* Wellness */}
+          <Link to="/motivation-wellness">
             <motion.div
-              whileHover={{ scale: 1.05, boxShadow: "0 8px 32px 0 rgba(255,0,128,0.18)" }}
-              transition={{ type: "spring", stiffness: 300 }}
-              className="p-8 bg-gray-800 rounded-2xl shadow-xl flex flex-col items-center w-full max-w-xs mx-auto border border-pink-400"
+              whileHover={{ scale: 1.05 }}
+              className="p-8 bg-gray-800 border border-pink-400 rounded-2xl shadow-xl text-center"
             >
-              <FaHeartbeat className="text-5xl text-pink-400 mb-4 drop-shadow-lg" />
-              <h3 className="text-2xl font-bold text-pink-300 mb-2">Motivation & Wellness</h3>
-              <p className="mt-2 text-lg text-gray-300 text-center">
-                Stay motivated with daily tips, challenges, and wellness tracking for a healthier lifestyle.
+              <FaHeartbeat className="text-5xl text-pink-400 mx-auto mb-4" />
+              <h3 className="text-2xl font-bold text-pink-300">Motivation & Wellness</h3>
+              <p className="text-gray-300 mt-2">
+                Daily tips, challenges and lifestyle support.
               </p>
             </motion.div>
-            </Link>
-          </div>
+          </Link>
         </div>
       </div>
 
-      {/* New Fitness Activities Section */}
-      <div className="w-full bg-gradient-to-br from-orange-400/10 via-gray-900/80 to-black py-20">
-        <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-10 items-stretch justify-center">
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 300 }}
-            className="p-8 bg-gray-800 rounded-2xl shadow-xl flex flex-col items-center border border-blue-400"
-          >
-            <FaRunning className="text-5xl text-blue-400 mb-4 drop-shadow-lg" />
-            <h3 className="text-2xl font-bold text-blue-300 mb-2">Running Programs</h3>
-            <p className="mt-2 text-lg text-gray-300 text-center">
-              Structured running plans for all levels, from beginner to marathoner.
-            </p>
-          </motion.div>
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 300 }}
-            className="p-8 bg-gray-800 rounded-2xl shadow-xl flex flex-col items-center border border-cyan-400"
-          >
-            <FaBiking className="text-5xl text-cyan-400 mb-4 drop-shadow-lg" />
-            <h3 className="text-2xl font-bold text-cyan-300 mb-2">Cycling Challenges</h3>
-            <p className="mt-2 text-lg text-gray-300 text-center">
-              Join cycling challenges and track your rides with GPS integration.
-            </p>
-          </motion.div>
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 300 }}
-            className="p-8 bg-gray-800 rounded-2xl shadow-xl flex flex-col items-center border border-indigo-400"
-          >
-            <FaSwimmer className="text-5xl text-indigo-400 mb-4 drop-shadow-lg" />
-            <h3 className="text-2xl font-bold text-indigo-300 mb-2">Swimming Logs</h3>
-            <p className="mt-2 text-lg text-gray-300 text-center">
-              Record your swim sessions and monitor your aquatic progress.
-            </p>
-          </motion.div>
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 300 }}
-            className="p-8 bg-gray-800 rounded-2xl shadow-xl flex flex-col items-center border border-teal-400"
-          >
-            <FaSpa className="text-5xl text-teal-400 mb-4 drop-shadow-lg" />
-            <h3 className="text-2xl font-bold text-teal-300 mb-2">Yoga & Flexibility</h3>
-            <p className="mt-2 text-lg text-gray-300 text-center">
-              Guided yoga routines and flexibility exercises for mind and body.
-            </p>
-          </motion.div>
+      {/* Fitness Activities */}
+      <div className="w-full py-20 bg-gradient-to-br from-orange-400/10 via-gray-900/80 to-black">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 max-w-6xl mx-auto px-4">
+
+          <ActivityCard Icon={FaRunning} color="blue" title="Running Programs" text="Beginner to marathon-level plans." />
+          <ActivityCard Icon={FaBiking} color="cyan" title="Cycling Challenges" text="Join rides and track them via GPS." />
+          <ActivityCard Icon={FaSwimmer} color="indigo" title="Swimming Logs" text="Monitor laps, speed, and form." />
+          <ActivityCard Icon={FaSpa} color="teal" title="Yoga & Flexibility" text="Improve mobility and calm your mind." />
+
         </div>
       </div>
 
-      {/* Extra Section: Community & Progress */}
-      <div className="w-full bg-gradient-to-br from-orange-400/10 via-gray-900/80 to-black py-20">
-        <div className="container mx-auto flex flex-col md:flex-row items-center justify-center gap-16">
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7 }}
-            className="flex-1 flex flex-col items-center text-center md:text-left"
-          >
-            <FaUsers className="text-6xl text-blue-400 mb-4 drop-shadow-lg" />
-            <h3 className="text-3xl font-bold text-blue-300 mb-2">Join the Community</h3>
-            <p className="text-lg text-gray-200">
-              Connect with fitness enthusiasts, share your journey, and get support from a vibrant community.
-            </p>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7 }}
-            className="flex-1 flex flex-col items-center text-center md:text-left"
-          >
-            <FaChartLine className="text-6xl text-emerald-400 mb-4 drop-shadow-lg" />
-            <h3 className="text-3xl font-bold text-emerald-300 mb-2">Track Your Progress</h3>
-            <p className="text-lg text-gray-200">
-              Visualize your achievements and milestones with beautiful analytics and progress charts.
-            </p>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            className="flex-1 flex flex-col items-center text-center md:text-left"
-          >
-            <FaMedal className="text-6xl text-yellow-400 mb-4 drop-shadow-lg" />
-            <h3 className="text-3xl font-bold text-yellow-300 mb-2">Earn Rewards</h3>
-            <p className="text-lg text-gray-200">
-              Complete challenges, earn badges, and celebrate your fitness victories!
-            </p>
-          </motion.div>
+      {/* Community & Progress */}
+      <div className="w-full py-20 bg-gradient-to-br from-orange-400/10 via-gray-900/80 to-black">
+        <div className="flex flex-col md:flex-row gap-16 max-w-6xl mx-auto px-4">
+
+          <InfoCard Icon={FaUsers} color="blue" title="Join the Community" text="Connect with fitness enthusiasts and grow together." />
+          <InfoCard Icon={FaChartLine} color="emerald" title="Track Progress" text="Beautiful analytics for your milestones." />
+          <InfoCard Icon={FaMedal} color="yellow" title="Earn Rewards" text="Get badges and celebrate wins!" />
+
         </div>
       </div>
 
-      {/* New Section: Tools & Burn Tracker */}
-      <div className="w-full bg-gradient-to-br from-gray-900 via-gray-800 to-black py-20">
-        <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-stretch justify-center">
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 300 }}
-            className="p-8 bg-gray-800 rounded-2xl shadow-xl flex flex-col items-center border border-orange-400"
-          >
-            <FaClipboardList className="text-5xl text-orange-400 mb-4 drop-shadow-lg" />
-            <h3 className="text-2xl font-bold text-orange-300 mb-2">Personalized Plans</h3>
-            <p className="mt-2 text-lg text-gray-300 text-center">
-              Get custom workout and diet plans tailored to your goals and preferences.
-            </p>
-          </motion.div>
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 300 }}
-            className="p-8 bg-gray-800 rounded-2xl shadow-xl flex flex-col items-center border border-red-400"
-          >
-            <FaFire className="text-5xl text-red-400 mb-4 drop-shadow-lg" />
-            <h3 className="text-2xl font-bold text-red-300 mb-2">Calorie Burn Tracker</h3>
-            <p className="mt-2 text-lg text-gray-300 text-center">
-              Track your calories burned during workouts and daily activities.
-            </p>
-          </motion.div>
+      {/* Tools */}
+      <div className="w-full py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-black">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-6xl mx-auto px-4">
+          <ActivityCard Icon={FaClipboardList} color="orange" title="Personalized Plans" text="AI-tailored workouts & diets." />
+          <ActivityCard Icon={FaFire} color="red" title="Calorie Burn Tracker" text="Track calories burned daily." />
         </div>
       </div>
-
-     
     </>
   );
 }
 
 export default Home;
+
+/* Reusable Components */
+const ActivityCard = ({ Icon, color, title, text }) => (
+  <motion.div
+    whileHover={{ scale: 1.05 }}
+    className={`p-8 bg-gray-800 rounded-2xl shadow-xl text-center border border-${color}-400`}
+  >
+    <Icon className={`text-5xl text-${color}-400 mx-auto mb  -4`} />
+    <h3 className={`text-2xl font-bold text-${color}-300`}>{title}</h3>
+    <p className="text-gray-300 mt-2">{text}</p>
+  </motion.div>
+);
+
+const InfoCard = ({ Icon, color, title, text }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 40 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.7 }}
+    className="flex-1 text-center md:text-left"
+  >
+    <Icon className={`text-6xl text-${color}-400 mb-4 mx-auto md:mx-0`} />
+    <h3 className={`text-3xl font-bold text-${color}-300`}>{title}</h3>
+    <p className="text-gray-200 mt-2">{text}</p>
+  </motion.div>
+);
